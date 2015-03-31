@@ -95,7 +95,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageView2"
+                    android:id="@+id/ivMayo"
                     android:src="@mipmap/mayo"
                     android:layout_above="@+id/linearLayout2"
                     android:layout_toRightOf="@+id/linearLayout4"
@@ -107,7 +107,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageView3"
+                    android:id="@+id/ivKetchup"
                     android:src="@mipmap/ketchup"
                     android:layout_above="@+id/linearLayout2"
                     android:layout_toLeftOf="@+id/linearLayout3"
