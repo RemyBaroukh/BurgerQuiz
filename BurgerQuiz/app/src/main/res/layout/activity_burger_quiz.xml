@@ -121,17 +121,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Choissisez votre equipe !"
+                android:text="Choisis ton équipe!"
                 android:id="@+id/textView"
                 android:layout_above="@+id/linearLayout5"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:typeface="monospace" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView4"
+                android:id="@+id/ivBurger"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/burger"
                 android:layout_below="@+id/imageView" />
 
         </RelativeLayout>

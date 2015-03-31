@@ -4,11 +4,13 @@ import app.rems.burgerquiz.util.SystemUiHider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 
 /**
@@ -54,6 +56,12 @@ public class BurgerQuizActivity extends Activity {
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
+
+        ImageView ivBurger = (ImageView) findViewById(R.id.ivBurger);
+        ivBurger.setBackgroundResource(R.drawable.burger_animation);
+        AnimationDrawable ivBurgerAnimation = (AnimationDrawable) ivBurger.getBackground();
+        ivBurgerAnimation.start();
+
 
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.
