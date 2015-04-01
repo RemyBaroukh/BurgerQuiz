@@ -1,14 +1,18 @@
-package app.rems.burgerquiz;
+package app.rems.burgerquiz.activities;
 
+import app.rems.burgerquiz.R;
 import app.rems.burgerquiz.game.BurgerQuiz;
 import app.rems.burgerquiz.game.BurgerVariables;
+import app.rems.burgerquiz.utils.BurgerFragmentListener;
+
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-public class BurgerQuizActivity extends Activity {
+public class BurgerQuizActivity extends Activity implements BurgerFragmentListener {
 
     /**
      * Main menu
@@ -58,5 +62,8 @@ public class BurgerQuizActivity extends Activity {
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
+    }
 }
