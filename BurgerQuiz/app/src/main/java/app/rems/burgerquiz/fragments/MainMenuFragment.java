@@ -49,13 +49,18 @@ public class MainMenuFragment extends Fragment {
         ivMayo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BurgerVariables.burgerQuiz.start(BurgerQuiz.Equipe.MAYO);
+                BurgerVariables.burgerQuiz.start(BurgerVariables.Equipe.MAYO);
+                BurgerVariables.burgerQuiz.nextEpreuve();
+                mListener.showEpreuve();
+
             }
         });
         ivKetchup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BurgerVariables.burgerQuiz.start(BurgerQuiz.Equipe.KETCHUP);
+                BurgerVariables.burgerQuiz.start(BurgerVariables.Equipe.KETCHUP);
+                BurgerVariables.burgerQuiz.nextEpreuve();
+                mListener.showEpreuve();
             }
         });
 

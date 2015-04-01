@@ -7,6 +7,6 @@ import android.net.Uri;
  */
 
 public interface BurgerFragmentListener {
-    // TODO: Update argument type and name
-    public void onFragmentInteraction(Uri uri);
+    public void showEpreuve();
+
 }

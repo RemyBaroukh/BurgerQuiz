@@ -5,5 +5,19 @@ package app.rems.burgerquiz.game;
  */
 public class BurgerVariables {
 
+    public enum Equipe {
+        MAYO,
+        KETCHUP
+    }
+
+    public enum Epreuve {
+        MAINMENU,
+        NUGGETS,
+        SELOUPOIVRE,
+        MENUS,
+        ADDITION,
+        BURGERDELAMORT
+    }
+
     public static BurgerQuiz burgerQuiz;
 }
