@@ -14,11 +14,7 @@ import android.widget.ImageView;
 
 public class BurgerQuizActivity extends Activity implements BurgerFragmentListener {
 
-    /**
-     * Main menu
-     */
-    private ImageView ivMayo;
-    private ImageView ivKetchup;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,33 +25,11 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
         BurgerVariables.burgerQuiz = new BurgerQuiz();
 
         setUpUi();
-        ivMayo = (ImageView) findViewById(R.id.ivMayo);
-        ivKetchup = (ImageView) findViewById(R.id.ivKetchup);
 
-        ivMayo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BurgerVariables.burgerQuiz.start(BurgerQuiz.Equipe.MAYO);
-            }
-        });
-        ivKetchup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BurgerVariables.burgerQuiz.start(BurgerQuiz.Equipe.KETCHUP);
-            }
-        });
 
     }
 
     private void setUpUi() {
-
-
-        //Animated Burger
-        ImageView ivBurger = (ImageView) findViewById(R.id.ivBurger);
-        ivBurger.setBackgroundResource(R.drawable.burger_animation);
-        AnimationDrawable ivBurgerAnimation = (AnimationDrawable) ivBurger.getBackground();
-        ivBurgerAnimation.start();
-
 
         getActionBar().hide();
 
