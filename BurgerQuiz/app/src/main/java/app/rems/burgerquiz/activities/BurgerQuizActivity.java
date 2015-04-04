@@ -4,6 +4,7 @@ import app.rems.burgerquiz.R;
 import app.rems.burgerquiz.fragments.NuggetsFragment;
 import app.rems.burgerquiz.game.BurgerQuiz;
 import app.rems.burgerquiz.game.BurgerVariables;
+import app.rems.burgerquiz.nuggets.NuggetsManager;
 import app.rems.burgerquiz.utils.BurgerFragmentListener;
 
 import android.app.Activity;
@@ -28,7 +29,12 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
         setContentView(R.layout.activity_burger_quiz);
         BurgerVariables.burgerQuiz = new BurgerQuiz();
         setUpUi();
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NuggetsManager.loadNuggets();
+            }
+        }).start();
 
     }
 
