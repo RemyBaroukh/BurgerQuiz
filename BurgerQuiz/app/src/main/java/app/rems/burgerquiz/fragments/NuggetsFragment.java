@@ -65,7 +65,7 @@ public class NuggetsFragment extends Fragment {
 
     private void loadQuestion() {
 
-        Nugget n = NuggetsManager.getRandomQuestion();
+        final Nugget n = NuggetsManager.getRandomQuestion();
         Log.d(null, "Burger Quiz - Nuggets - OnCreate chargement des nuggets " + n.toString());
 
 
@@ -73,10 +73,13 @@ public class NuggetsFragment extends Fragment {
         TextView question = (TextView) llNugget.findViewById(R.id.tvQuestion);
         question.setText(n.getQuestion());
 
-
+        LinearLayout llQuestion = (LinearLayout) llNugget.findViewById(R.id.llQuestion);
+        if(BurgerVariables.burgerQuiz.getEquipe() == BurgerVariables.Equipe.MAYO)
+        {
+            llQuestion.setBackgroundColor(getActivity().getResources().getColor(R.color.mayo));
+        }
 
         LinearLayout reponses = (LinearLayout) llNugget.findViewById(R.id.llReponses);
-
         for (int i = 0; i < 4; i++)
         {
             LinearLayout llReponse = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.reponsenugget, null);
@@ -107,8 +110,20 @@ public class NuggetsFragment extends Fragment {
             {
                 tvNum.setBackgroundColor(getActivity().getResources().getColor(R.color.mayo));
             }
+            final int finalI = i;
+            llReponse.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (NuggetsManager.checkReponse(finalI, n))
+                    {
+                        mListener.showEpreuve();
+                    }
+
+                }
+            });
             reponses.addView(llReponse);
         }
+
         llNuggets.addView(llNugget);
     }
 

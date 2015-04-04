@@ -10,6 +10,7 @@ public class Nugget {
     private String reponse2;
     private String reponse3;
     private String reponse4;
+    private String response;
 
     Nugget(int idNugget)
     {
@@ -66,5 +67,13 @@ public class Nugget {
                 ", reponse3='" + reponse3 + '\'' +
                 ", reponse4='" + reponse4 + '\'' +
                 '}';
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 }

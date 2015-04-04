@@ -12,22 +12,20 @@ public class BurgerQuiz {
     private BurgerVariables.Equipe equipe;
     private Boolean asStart = false;
     private BurgerVariables.Epreuve currentEpreuve = BurgerVariables.Epreuve.MAINMENU;
+    private int currentScore;
 
-    public BurgerQuiz()
-    {
+    public BurgerQuiz() {
         Log.d(null, "Burger Quiz - Creation du jeu");
     }
 
-    public void start(BurgerVariables.Equipe equipechoisi)
-    {
+    public void start(BurgerVariables.Equipe equipechoisi) {
         equipe = equipechoisi;
         asStart = true;
         BurgerVariables.randomGenerator = new Random();
         Log.d(null, "Burger Quiz - Choix de l'equipe " + equipe.toString());
     }
 
-    public void nextEpreuve()
-    {
+    public void nextEpreuve() {
         if (currentEpreuve == BurgerVariables.Epreuve.MAINMENU)
             currentEpreuve = BurgerVariables.Epreuve.NUGGETS;
         Log.d(null, "Burger Quiz - Changement d'Epreuve " + currentEpreuve.toString());
@@ -55,5 +53,18 @@ public class BurgerQuiz {
 
     public void setCurrentEpreuve(BurgerVariables.Epreuve currentEpreuve) {
         this.currentEpreuve = currentEpreuve;
+    }
+
+    public int getCurrentScore() {
+        return currentScore;
+    }
+
+    public void setCurrentScore(int currentScore) {
+        this.currentScore = currentScore;
+    }
+
+    public void addOneToScore()
+    {
+        this.currentScore++;
     }
 }

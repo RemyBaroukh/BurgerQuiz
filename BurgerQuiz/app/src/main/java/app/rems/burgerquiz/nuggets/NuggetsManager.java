@@ -54,6 +54,7 @@ public class NuggetsManager {
                 nugget1.setReponse2(nugget.getString("reponse2"));
                 nugget1.setReponse3(nugget.getString("reponse3"));
                 nugget1.setReponse4(nugget.getString("reponse4"));
+                nugget1.setResponse(nugget.getString("reponses"));
                 nuggets.add(nugget1);
 
             }
@@ -73,6 +74,24 @@ public class NuggetsManager {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
+        }
+    }
+
+    public static boolean checkReponse(int idReponse, Nugget n)
+    {
+        switch(idReponse)
+        {
+            case 0:
+                return n.getResponse().contains("1");
+            case 1:
+                return n.getResponse().contains("2");
+            case 2:
+                return n.getResponse().contains("3");
+            case 3:
+                return n.getResponse().contains("4");
+            default:
+                return false;
+
         }
     }
 
