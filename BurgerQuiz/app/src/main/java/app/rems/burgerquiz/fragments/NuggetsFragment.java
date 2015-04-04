@@ -15,6 +15,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import app.rems.burgerquiz.R;
+import app.rems.burgerquiz.game.BurgerQuiz;
 import app.rems.burgerquiz.game.BurgerVariables;
 import app.rems.burgerquiz.nuggets.Nugget;
 import app.rems.burgerquiz.nuggets.NuggetsManager;
@@ -28,6 +29,7 @@ public class NuggetsFragment extends Fragment {
     private BurgerFragmentListener mListener;
     private ImageView ivNuggets;
     private LinearLayout llNuggets;
+    private int questionsAsk = 0;
 
     public static NuggetsFragment newInstance() {
         NuggetsFragment fragment = new NuggetsFragment();
@@ -80,6 +82,8 @@ public class NuggetsFragment extends Fragment {
         }
 
         LinearLayout reponses = (LinearLayout) llNugget.findViewById(R.id.llReponses);
+        llNuggets.removeAllViews();
+
         for (int i = 0; i < 4; i++)
         {
             LinearLayout llReponse = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.reponsenugget, null);
@@ -114,9 +118,13 @@ public class NuggetsFragment extends Fragment {
             llReponse.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (NuggetsManager.checkReponse(finalI, n))
-                    {
-                        mListener.showEpreuve();
+                    boolean isCorrect = NuggetsManager.checkReponse(finalI, n);
+                    if (isCorrect)
+                        BurgerVariables.burgerQuiz.addOneToScore();
+                    loadQuestion();
+                    questionsAsk++;
+                    if (questionsAsk == 4) {
+                        BurgerVariables.burgerQuiz.nextEpreuve();
                     }
 
                 }

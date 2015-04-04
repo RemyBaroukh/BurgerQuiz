@@ -46,16 +46,11 @@ public class MainMenuFragment extends Fragment {
         ivMayo = (ImageView) v.findViewById(R.id.ivMayo);
         ivKetchup = (ImageView) v.findViewById(R.id.ivKetchup);
 
-        ivMayo.setVisibility(View.GONE);
-        ivKetchup.setVisibility(View.GONE);
-
-
         ivMayo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BurgerVariables.burgerQuiz.start(BurgerVariables.Equipe.MAYO);
                 BurgerVariables.burgerQuiz.nextEpreuve();
-                mListener.showEpreuve();
 
             }
         });
@@ -64,7 +59,6 @@ public class MainMenuFragment extends Fragment {
             public void onClick(View v) {
                 BurgerVariables.burgerQuiz.start(BurgerVariables.Equipe.KETCHUP);
                 BurgerVariables.burgerQuiz.nextEpreuve();
-                mListener.showEpreuve();
             }
         });
 
@@ -76,17 +70,6 @@ public class MainMenuFragment extends Fragment {
         return v;
     }
 
-    public void showEquipes()
-    {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ivMayo.setVisibility(View.VISIBLE);
-                ivKetchup.setVisibility(View.VISIBLE);
-            }
-        });
-
-    }
 
 
     @Override

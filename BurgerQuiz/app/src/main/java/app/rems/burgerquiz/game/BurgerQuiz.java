@@ -11,7 +11,7 @@ public class BurgerQuiz {
 
     private BurgerVariables.Equipe equipe;
     private Boolean asStart = false;
-    private BurgerVariables.Epreuve currentEpreuve = BurgerVariables.Epreuve.MAINMENU;
+    private BurgerVariables.Epreuve currentEpreuve = BurgerVariables.Epreuve.SPLASHSCREEN;
     private int currentScore;
 
     public BurgerQuiz() {
@@ -26,9 +26,23 @@ public class BurgerQuiz {
     }
 
     public void nextEpreuve() {
-        if (currentEpreuve == BurgerVariables.Epreuve.MAINMENU)
-            currentEpreuve = BurgerVariables.Epreuve.NUGGETS;
+
+        switch(currentEpreuve)
+        {
+            case SPLASHSCREEN:
+                currentEpreuve = BurgerVariables.Epreuve.MAINMENU;
+                break;
+            case MAINMENU:
+                currentEpreuve = BurgerVariables.Epreuve.NUGGETS;
+                break;
+            case NUGGETS:
+                currentEpreuve = BurgerVariables.Epreuve.SELOUPOIVRE;
+                break;
+            default:
+                break;
+        }
         Log.d(null, "Burger Quiz - Changement d'Epreuve " + currentEpreuve.toString());
+        BurgerVariables.bqActivity.showEpreuve();
     }
 
     public BurgerVariables.Equipe getEquipe() {

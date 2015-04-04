@@ -58,7 +58,7 @@ public class NuggetsManager {
                 nuggets.add(nugget1);
 
             }
-            BurgerVariables.bqActivity.uiReady();
+            BurgerVariables.burgerQuiz.nextEpreuve();
 
 
         } catch (Exception e) {

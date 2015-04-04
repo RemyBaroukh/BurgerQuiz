@@ -13,7 +13,7 @@
     <fragment
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:name="app.rems.burgerquiz.fragments.MainMenuFragment"
+        android:name="app.rems.burgerquiz.fragments.LoadingFragment"
         android:id="@+id/fragment"
         android:layout_gravity="center" />
 </FrameLayout>

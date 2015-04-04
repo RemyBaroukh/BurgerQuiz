@@ -1,8 +1,10 @@
 package app.rems.burgerquiz.activities;
 
 import app.rems.burgerquiz.R;
+import app.rems.burgerquiz.fragments.LoadingFragment;
 import app.rems.burgerquiz.fragments.MainMenuFragment;
 import app.rems.burgerquiz.fragments.NuggetsFragment;
+import app.rems.burgerquiz.fragments.SelOuPoivreFragment;
 import app.rems.burgerquiz.game.BurgerQuiz;
 import app.rems.burgerquiz.game.BurgerVariables;
 import app.rems.burgerquiz.nuggets.NuggetsManager;
@@ -20,7 +22,7 @@ import android.widget.ImageView;
 
 public class BurgerQuizActivity extends Activity implements BurgerFragmentListener {
 
-    MainMenuFragment mainMenuFragment;
+    LoadingFragment loadingFragment;
 
 
     @Override
@@ -29,15 +31,27 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
         BurgerVariables.bqActivity = this;
         setContentView(R.layout.activity_burger_quiz);
         setUpUi();
-        mainMenuFragment = (MainMenuFragment) getFragmentManager().findFragmentById(R.id.fragment);
+        loadingFragment = (LoadingFragment) getFragmentManager().findFragmentById(R.id.fragment);
         BurgerVariables.burgerQuiz = new BurgerQuiz();
-        loadManagers();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                }
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        loadManagers();
+                    }
+                };
+                thread.start();
+            }
+        };
+        thread.start();
 
-    }
 
-    public void uiReady()
-    {
-        mainMenuFragment.showEquipes();
     }
 
     private void loadManagers() {
@@ -64,8 +78,14 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
         Fragment epreuve;
         switch(BurgerVariables.burgerQuiz.getCurrentEpreuve())
         {
+            case MAINMENU:
+                epreuve = MainMenuFragment.newInstance();
+                break;
             case NUGGETS:
                 epreuve = NuggetsFragment.newInstance();
+                break;
+            case SELOUPOIVRE:
+                epreuve = SelOuPoivreFragment.newInstance();
                 break;
             default:
                 epreuve = NuggetsFragment.newInstance();
