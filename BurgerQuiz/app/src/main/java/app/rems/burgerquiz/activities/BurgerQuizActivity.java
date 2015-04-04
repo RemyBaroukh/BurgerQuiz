@@ -1,6 +1,7 @@
 package app.rems.burgerquiz.activities;
 
 import app.rems.burgerquiz.R;
+import app.rems.burgerquiz.fragments.MainMenuFragment;
 import app.rems.burgerquiz.fragments.NuggetsFragment;
 import app.rems.burgerquiz.game.BurgerQuiz;
 import app.rems.burgerquiz.game.BurgerVariables;
@@ -19,23 +20,33 @@ import android.widget.ImageView;
 
 public class BurgerQuizActivity extends Activity implements BurgerFragmentListener {
 
-
+    MainMenuFragment mainMenuFragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        BurgerVariables.bqActivity = this;
         setContentView(R.layout.activity_burger_quiz);
-        BurgerVariables.burgerQuiz = new BurgerQuiz();
         setUpUi();
+        mainMenuFragment = (MainMenuFragment) getFragmentManager().findFragmentById(R.id.fragment);
+        BurgerVariables.burgerQuiz = new BurgerQuiz();
+        loadManagers();
+
+    }
+
+    public void uiReady()
+    {
+        mainMenuFragment.showEquipes();
+    }
+
+    private void loadManagers() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 NuggetsManager.loadNuggets();
             }
         }).start();
-
     }
 
     private void setUpUi() {

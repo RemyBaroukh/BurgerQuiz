@@ -1,5 +1,7 @@
 <resources>
 
     <color name="black_overlay">#66000000</color>
+    <color name="mayo">#ffc800</color>
+    <color name="ketchup">#c70000</color>
 
 </resources>

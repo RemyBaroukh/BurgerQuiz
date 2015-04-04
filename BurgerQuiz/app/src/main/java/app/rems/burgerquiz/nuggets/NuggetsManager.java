@@ -1,5 +1,6 @@
 package app.rems.burgerquiz.nuggets;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -13,12 +14,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import app.rems.burgerquiz.activities.BurgerQuizActivity;
+import app.rems.burgerquiz.game.BurgerVariables;
+
 /**
  * Created by remsd_000 on 04/04/2015.
  */
 public class NuggetsManager {
 
-    private ArrayList<Nugget> nuggets = new ArrayList<>();
+    static ArrayList<Nugget> nuggets = new ArrayList<>();
 
     public static void loadNuggets()
     {
@@ -50,9 +54,11 @@ public class NuggetsManager {
                 nugget1.setReponse2(nugget.getString("reponse2"));
                 nugget1.setReponse3(nugget.getString("reponse3"));
                 nugget1.setReponse4(nugget.getString("reponse4"));
-                Log.d(null, "Burger Quiz - Nuggets - OnCreate chargement des nuggets " + nugget1.toString());
+                nuggets.add(nugget1);
 
             }
+            BurgerVariables.bqActivity.uiReady();
+
 
         } catch (Exception e) {
             Log.e(null, e.toString());
@@ -68,5 +74,12 @@ public class NuggetsManager {
                 urlConnection.disconnect();
             }
         }
+    }
+
+
+    public static Nugget getRandomQuestion()
+    {
+        int i = BurgerVariables.randomGenerator.nextInt(nuggets.size());
+        return nuggets.get(i);
     }
 }

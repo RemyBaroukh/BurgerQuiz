@@ -4,4 +4,19 @@
     android:layout_height="fill_parent"
     android:background="#ff000000">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivNuggets"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="center" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/llNuggets">
+
+    </LinearLayout>
+
 </LinearLayout>

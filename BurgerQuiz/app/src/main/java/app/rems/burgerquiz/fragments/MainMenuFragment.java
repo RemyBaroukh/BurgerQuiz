@@ -46,6 +46,10 @@ public class MainMenuFragment extends Fragment {
         ivMayo = (ImageView) v.findViewById(R.id.ivMayo);
         ivKetchup = (ImageView) v.findViewById(R.id.ivKetchup);
 
+        ivMayo.setVisibility(View.GONE);
+        ivKetchup.setVisibility(View.GONE);
+
+
         ivMayo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +74,18 @@ public class MainMenuFragment extends Fragment {
         AnimationDrawable ivBurgerAnimation = (AnimationDrawable) ivBurger.getBackground();
         ivBurgerAnimation.start();
         return v;
+    }
+
+    public void showEquipes()
+    {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ivMayo.setVisibility(View.VISIBLE);
+                ivKetchup.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 
 

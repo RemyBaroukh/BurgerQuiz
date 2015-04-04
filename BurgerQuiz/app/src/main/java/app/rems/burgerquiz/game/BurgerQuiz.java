@@ -2,6 +2,8 @@ package app.rems.burgerquiz.game;
 
 import android.util.Log;
 
+import java.util.Random;
+
 /**
  * Created by remsd_000 on 01/04/2015.
  */
@@ -20,6 +22,7 @@ public class BurgerQuiz {
     {
         equipe = equipechoisi;
         asStart = true;
+        BurgerVariables.randomGenerator = new Random();
         Log.d(null, "Burger Quiz - Choix de l'equipe " + equipe.toString());
     }
 
