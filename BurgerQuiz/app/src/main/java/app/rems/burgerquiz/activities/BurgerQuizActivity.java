@@ -4,6 +4,7 @@ import app.rems.burgerquiz.R;
 import app.rems.burgerquiz.fragments.LoadingFragment;
 import app.rems.burgerquiz.fragments.MainMenuFragment;
 import app.rems.burgerquiz.fragments.NuggetsFragment;
+import app.rems.burgerquiz.fragments.ScoreFragment;
 import app.rems.burgerquiz.fragments.SelOuPoivreFragment;
 import app.rems.burgerquiz.game.BurgerQuiz;
 import app.rems.burgerquiz.game.BurgerVariables;
@@ -78,6 +79,9 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
         Fragment epreuve;
         switch(BurgerVariables.burgerQuiz.getCurrentEpreuve())
         {
+            case SCORE:
+                epreuve = ScoreFragment.newInstance();
+                break;
             case MAINMENU:
                 epreuve = MainMenuFragment.newInstance();
                 break;

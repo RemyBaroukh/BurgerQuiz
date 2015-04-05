@@ -1,10 +1,10 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="true">
-    <item android:drawable="@mipmap/nuggets1" android:duration="300" />
-    <item android:drawable="@mipmap/nuggets2" android:duration="300" />
-    <item android:drawable="@mipmap/nuggets3" android:duration="300" />
-    <item android:drawable="@mipmap/nuggets4" android:duration="300" />
-    <item android:drawable="@mipmap/nuggets5" android:duration="300" />
-    <item android:drawable="@mipmap/nuggets6" android:duration="300" />
+    <item android:drawable="@drawable/nuggets1" android:duration="300" />
+    <item android:drawable="@drawable/nuggets2" android:duration="300" />
+    <item android:drawable="@drawable/nuggets3" android:duration="300" />
+    <item android:drawable="@drawable/nuggets4" android:duration="300" />
+    <item android:drawable="@drawable/nuggets5" android:duration="300" />
+    <item android:drawable="@drawable/nuggets6" android:duration="300" />
 
 </animation-list>

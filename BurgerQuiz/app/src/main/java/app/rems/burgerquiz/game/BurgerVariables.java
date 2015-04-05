@@ -17,6 +17,7 @@ public class BurgerVariables {
     public enum Epreuve {
         SPLASHSCREEN,
         MAINMENU,
+        SCORE,
         NUGGETS,
         SELOUPOIVRE,
         MENUS,

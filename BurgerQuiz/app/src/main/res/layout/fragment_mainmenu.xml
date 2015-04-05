@@ -12,7 +12,7 @@ android:id="@+id/fullscreen_content"
     android:layout_width="20dp"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    android:background="@mipmap/back"
+    android:background="@drawable/back"
     android:layout_alignParentLeft="true"
     android:layout_marginLeft="0dp"
     android:layout_alignParentTop="true"
@@ -26,7 +26,7 @@ android:id="@+id/fullscreen_content"
     android:layout_centerVertical="true"
     android:layout_alignParentRight="true"
     android:layout_alignParentEnd="true"
-    android:background="@mipmap/back"
+    android:background="@drawable/back"
     android:id="@+id/linearLayout3"></LinearLayout>
 
 <LinearLayout
@@ -35,7 +35,7 @@ android:id="@+id/fullscreen_content"
     android:layout_height="20dp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
-    android:background="@mipmap/top"
+    android:background="@drawable/top"
     android:id="@+id/linearLayout"></LinearLayout>
 
 <LinearLayout
@@ -44,7 +44,7 @@ android:id="@+id/fullscreen_content"
     android:layout_height="20dp"
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
-    android:background="@mipmap/top"
+    android:background="@drawable/top"
     android:id="@+id/linearLayout2"></LinearLayout>
 
 <ImageView
@@ -54,7 +54,7 @@ android:id="@+id/fullscreen_content"
     android:layout_below="@+id/linearLayout"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="46dp"
-    android:src="@mipmap/logo" />
+    android:src="@drawable/logo" />
 
 <LinearLayout
     android:orientation="horizontal"
@@ -72,7 +72,7 @@ android:id="@+id/fullscreen_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ivMayo"
-        android:src="@mipmap/mayo"
+        android:src="@drawable/mayo"
         android:layout_above="@+id/linearLayout2"
         android:layout_toRightOf="@+id/linearLayout4"
         android:layout_toEndOf="@+id/linearLayout4"
@@ -84,7 +84,7 @@ android:id="@+id/fullscreen_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ivKetchup"
-        android:src="@mipmap/ketchup"
+        android:src="@drawable/ketchup"
         android:layout_above="@+id/linearLayout2"
         android:layout_toLeftOf="@+id/linearLayout3"
         android:layout_toStartOf="@+id/linearLayout3"
