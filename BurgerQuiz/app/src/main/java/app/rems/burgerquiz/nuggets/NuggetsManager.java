@@ -38,13 +38,14 @@ public class NuggetsManager {
             urlConnection.setDoInput(true);
             urlConnection.connect();
             inStream = urlConnection.getInputStream();
+
             BufferedReader bReader = new BufferedReader(new InputStreamReader(inStream));
             String temp, response = "";
+
             while ((temp = bReader.readLine()) != null) {
                 response += temp;
             }
-            object = new JSONObject(response);
-            JSONArray nuggetsList = object.getJSONArray("nuggets");
+            JSONArray nuggetsList = new JSONArray(response);
             for(int i = 0; i < nuggetsList.length(); i++)
             {
                 JSONObject nugget = nuggetsList.getJSONObject(i);
@@ -56,6 +57,7 @@ public class NuggetsManager {
                 nugget1.setReponse4(nugget.getString("reponse4"));
                 nugget1.setResponse(nugget.getString("reponses"));
                 nuggets.add(nugget1);
+                Log.d(null, "Burger Quiz - " + nugget1.toString());
 
             }
             BurgerVariables.burgerQuiz.nextEpreuve();

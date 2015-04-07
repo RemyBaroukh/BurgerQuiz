@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">BurgerQuiz</string>
-
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
+    <string name="error_signin">Error with the sign in"</string>
+    <string name="error_connec">Error connection i guess</string>
 </resources>

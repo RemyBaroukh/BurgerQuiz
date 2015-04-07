@@ -8,7 +8,19 @@
         android:layout_width="300dp"
         android:layout_height="261dp"
         android:id="@+id/ivScore"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Vos miams:"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/ivScore"
+        android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:textColor="#ffffffff"
+        android:textSize="30dp"
+        android:typeface="monospace" />
 </RelativeLayout>

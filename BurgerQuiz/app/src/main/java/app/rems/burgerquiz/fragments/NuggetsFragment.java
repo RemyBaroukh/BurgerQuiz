@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -121,10 +122,13 @@ public class NuggetsFragment extends Fragment {
                     boolean isCorrect = NuggetsManager.checkReponse(finalI, n);
                     if (isCorrect)
                         BurgerVariables.burgerQuiz.addOneToScore();
-                    loadQuestion();
-                    questionsAsk++;
-                    if (questionsAsk == 4) {
+                    if (questionsAsk == 5) {
                         BurgerVariables.burgerQuiz.nextEpreuve();
+                    }
+                    else
+                    {
+                        loadQuestion();
+                        questionsAsk++;
                     }
 
                 }
