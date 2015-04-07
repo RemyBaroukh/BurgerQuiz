@@ -50,12 +50,12 @@ public class NuggetsManager {
             {
                 JSONObject nugget = nuggetsList.getJSONObject(i);
                 Nugget nugget1 = new Nugget(Integer.valueOf(nugget.getString("idQuestion")));
-                nugget1.setQuestion(nugget.getString("question"));
-                nugget1.setReponse1(nugget.getString("reponse1"));
-                nugget1.setReponse2(nugget.getString("reponse2"));
-                nugget1.setReponse3(nugget.getString("reponse3"));
-                nugget1.setReponse4(nugget.getString("reponse4"));
-                nugget1.setResponse(nugget.getString("reponses"));
+                nugget1.setQuestion(nugget.getString("question").replaceAll("\\u0092","'"));
+                nugget1.setReponse1(nugget.getString("reponse1").replaceAll("\\u0092","'"));
+                nugget1.setReponse2(nugget.getString("reponse2").replaceAll("\\u0092","'"));
+                nugget1.setReponse3(nugget.getString("reponse3").replaceAll("\\u0092","'"));
+                nugget1.setReponse4(nugget.getString("reponse4").replaceAll("\\u0092","'"));
+                nugget1.setResponse(nugget.getString("reponses").replaceAll("\\u0092","'"));
                 nuggets.add(nugget1);
                 Log.d(null, "Burger Quiz - " + nugget1.toString());
 
