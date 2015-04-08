@@ -1,7 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="#ff000000">
 
-</LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="invisible"
+        android:id="@+id/llSeloupoivre">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Time"
+            android:id="@+id/textView3"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="156dp"
+            android:textColor="#ffffffff"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Sel"
+            android:id="@+id/textView4"
+            android:textColor="#ffffffff"
+            android:layout_below="@+id/textView3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="91dp"
+            android:typeface="monospace"
+            android:textSize="22sp"
+            android:background="@color/ketchup"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Poivre"
+            android:id="@+id/textView5"
+            android:typeface="monospace"
+            android:textColor="#ffffffff"
+            android:textSize="22sp"
+            android:layout_marginTop="54dp"
+            android:layout_below="@+id/textView4"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:background="@color/ketchup"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Titre3"
+            android:id="@+id/textView6"
+            android:textColor="#ffffffff"
+            android:layout_below="@+id/textView5"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="52dp"
+            android:textSize="22sp"
+            android:gravity="center_horizontal"
+            android:background="@color/ketchup"
+            android:typeface="monospace"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/llQuestion">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:id="@+id/ivSelOuPoivre"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/seloupoivre" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Question"
+            android:id="@+id/tvSelPoivre"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ffffffff"
+            android:padding="30dp"
+            android:background="#365daa"
+            android:typeface="monospace"
+            android:textSize="35sp" />
+    </LinearLayout>
+
+</RelativeLayout>

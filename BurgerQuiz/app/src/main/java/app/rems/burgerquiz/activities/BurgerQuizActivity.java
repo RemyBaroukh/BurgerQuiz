@@ -15,6 +15,7 @@ import app.rems.burgerquiz.utils.BurgerFragmentListener;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -60,6 +61,8 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
         new Thread(new Runnable() {
             @Override
             public void run() {
+                BurgerVariables.customFont = Typeface.createFromAsset(getAssets(),
+                        "fonts/horseshoeslemonade.ttf");
                 NuggetsManager.loadNuggets();
                 SelOuPoivreManager.loadSelOuPoivre();
                 SelOuPoivreManager.loadSelOuPoivreQuestions();

@@ -27,6 +27,7 @@ public class ScoreFragment extends Fragment {
     private BurgerFragmentListener mListener;
     private ImageView ivScore;
     private TextView tvSuivant;
+    private TextView tvMiams;
 
     public static ScoreFragment newInstance() {
         ScoreFragment fragment = new ScoreFragment();
@@ -50,6 +51,9 @@ public class ScoreFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_score, container, false);
         ivScore = (ImageView) v.findViewById(R.id.ivScore);
         tvSuivant = (TextView) v.findViewById(R.id.tvSuivant);
+        tvMiams = (TextView) v.findViewById(R.id.tvMiams);
+
+        tvMiams.setTypeface(BurgerVariables.customFont);
 
         final AnimationDrawable animation = new AnimationDrawable();
         animation.setOneShot(true);

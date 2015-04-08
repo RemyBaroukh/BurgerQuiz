@@ -97,11 +97,12 @@ android:id="@+id/fullscreen_content"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceMedium"
-    android:text="Choisis ton équipe!"
-    android:id="@+id/textView"
+    android:text="Choisis ton equipe!"
+    android:id="@+id/tvMenuEquipe"
     android:layout_above="@+id/linearLayout5"
     android:layout_centerHorizontal="true"
-    android:typeface="monospace" />
+    android:typeface="monospace"
+    android:textSize="25dp" />
 
 <ImageView
     android:layout_width="wrap_content"

@@ -15,13 +15,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Vos miams:"
-        android:id="@+id/textView2"
+        android:text="Vos miams"
+        android:id="@+id/tvMiams"
         android:layout_above="@+id/ivScore"
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:textColor="#ffffffff"
-        android:textSize="30dp"
+        android:textSize="50dp"
         android:typeface="monospace" />
 
     <TextView

@@ -1,5 +1,7 @@
 package app.rems.burgerquiz.game;
 
+import android.graphics.Typeface;
+
 import java.util.Random;
 
 import app.rems.burgerquiz.activities.BurgerQuizActivity;
@@ -28,4 +30,5 @@ public class BurgerVariables {
     public static BurgerQuiz burgerQuiz;
     public static BurgerQuizActivity bqActivity;
     public static Random randomGenerator;
+    public static Typeface customFont;
 }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import app.rems.burgerquiz.R;
 import app.rems.burgerquiz.game.BurgerQuiz;
@@ -22,6 +23,7 @@ public class MainMenuFragment extends Fragment {
      */
     private ImageView ivMayo;
     private ImageView ivKetchup;
+    private TextView tvMenuEquipe;
 
     private BurgerFragmentListener mListener;
 
@@ -45,6 +47,8 @@ public class MainMenuFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_mainmenu, container, false);
         ivMayo = (ImageView) v.findViewById(R.id.ivMayo);
         ivKetchup = (ImageView) v.findViewById(R.id.ivKetchup);
+        tvMenuEquipe = (TextView) v.findViewById(R.id.tvMenuEquipe);
+
 
         ivMayo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +65,8 @@ public class MainMenuFragment extends Fragment {
                 BurgerVariables.burgerQuiz.nextEpreuve();
             }
         });
+
+        tvMenuEquipe.setTypeface(BurgerVariables.customFont);
 
         //Animated Burger
         ImageView ivBurger = (ImageView) v.findViewById(R.id.ivBurger);
