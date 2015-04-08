@@ -9,6 +9,7 @@ import app.rems.burgerquiz.fragments.SelOuPoivreFragment;
 import app.rems.burgerquiz.game.BurgerQuiz;
 import app.rems.burgerquiz.game.BurgerVariables;
 import app.rems.burgerquiz.nuggets.NuggetsManager;
+import app.rems.burgerquiz.seloupoivre.SelOuPoivreManager;
 import app.rems.burgerquiz.utils.BurgerFragmentListener;
 
 import android.app.Activity;
@@ -60,6 +61,9 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
             @Override
             public void run() {
                 NuggetsManager.loadNuggets();
+                SelOuPoivreManager.loadSelOuPoivre();
+                SelOuPoivreManager.loadSelOuPoivreQuestions();
+
             }
         }).start();
     }

@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import app.rems.burgerquiz.R;
+import app.rems.burgerquiz.game.BurgerQuiz;
 import app.rems.burgerquiz.game.BurgerVariables;
 import app.rems.burgerquiz.utils.BurgerFragmentListener;
 
@@ -24,6 +26,7 @@ public class ScoreFragment extends Fragment {
 
     private BurgerFragmentListener mListener;
     private ImageView ivScore;
+    private TextView tvSuivant;
 
     public static ScoreFragment newInstance() {
         ScoreFragment fragment = new ScoreFragment();
@@ -45,7 +48,8 @@ public class ScoreFragment extends Fragment {
         Log.d(null, "Burger Quiz - Score - OnCreate ");
 
         View v = inflater.inflate(R.layout.fragment_score, container, false);
-        ImageView ivScore = (ImageView) v.findViewById(R.id.ivScore);
+        ivScore = (ImageView) v.findViewById(R.id.ivScore);
+        tvSuivant = (TextView) v.findViewById(R.id.tvSuivant);
 
         final AnimationDrawable animation = new AnimationDrawable();
         animation.setOneShot(true);
@@ -61,7 +65,14 @@ public class ScoreFragment extends Fragment {
         }
 
         ivScore.setBackground(animation);
-          animation.start();
+         animation.start();
+
+        tvSuivant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BurgerVariables.burgerQuiz.nextEpreuve();
+            }
+        });
         return v;
     }
 

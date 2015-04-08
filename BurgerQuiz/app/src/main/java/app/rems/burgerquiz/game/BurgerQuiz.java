@@ -38,6 +38,9 @@ public class BurgerQuiz {
             case NUGGETS:
                 currentEpreuve = BurgerVariables.Epreuve.SCORE;
                 break;
+            case SCORE:
+                currentEpreuve = BurgerVariables.Epreuve.SELOUPOIVRE;
+                break;
             default:
                 break;
         }

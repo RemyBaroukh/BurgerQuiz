@@ -57,10 +57,9 @@ public class NuggetsManager {
                 nugget1.setReponse4(nugget.getString("reponse4").replaceAll("\\u0092","'"));
                 nugget1.setResponse(nugget.getString("reponses").replaceAll("\\u0092","'"));
                 nuggets.add(nugget1);
-                Log.d(null, "Burger Quiz - " + nugget1.toString());
+                //Log.d(null, "Burger Quiz - " + nugget1.toString());
 
             }
-            BurgerVariables.burgerQuiz.nextEpreuve();
 
 
         } catch (Exception e) {
