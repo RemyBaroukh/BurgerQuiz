@@ -55,6 +55,12 @@ public class ScoreFragment extends Fragment {
 
         tvMiams.setTypeface(BurgerVariables.customFont);
 
+        if (BurgerVariables.burgerQuiz.getEquipe() == BurgerVariables.Equipe.MAYO)
+            tvMiams.setTextColor(getResources().getColor(R.color.mayo));
+        else
+            tvMiams.setTextColor(getResources().getColor(R.color.ketchup));
+
+
         final AnimationDrawable animation = new AnimationDrawable();
         animation.setOneShot(true);
 

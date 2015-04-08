@@ -12,13 +12,16 @@ import app.rems.burgerquiz.nuggets.NuggetsManager;
 import app.rems.burgerquiz.seloupoivre.SelOuPoivreManager;
 import app.rems.burgerquiz.utils.BurgerFragmentListener;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -77,6 +80,7 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
 
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void showEpreuve() {
 
@@ -84,6 +88,7 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
        FragmentTransaction ft = getFragmentManager().beginTransaction();
 
         Fragment epreuve;
+
         switch(BurgerVariables.burgerQuiz.getCurrentEpreuve())
         {
             case SCORE:
@@ -102,7 +107,9 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
                 epreuve = NuggetsFragment.newInstance();
                 break;
         }
-
+        //TODO: DELETE THAT
+        epreuve.setEnterTransition(new Fade(Fade.IN));
+        epreuve.setExitTransition(new Fade(Fade.OUT));
         ft.replace(R.id.fragment, epreuve);
 
         ft.commit();

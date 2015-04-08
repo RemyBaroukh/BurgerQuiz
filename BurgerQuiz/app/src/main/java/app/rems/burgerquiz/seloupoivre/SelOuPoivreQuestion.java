@@ -37,4 +37,21 @@ public class SelOuPoivreQuestion {
                 ", reponses='" + reponses + '\'' +
                 '}';
     }
+
+    public  boolean checkReponse(int idReponse)
+    {
+
+        switch(idReponse)
+        {
+            case 0:
+                return reponses.contains("1");
+            case 1:
+                return reponses.contains("2");
+            case 2:
+                return reponses.contains("3");
+            default:
+                return false;
+
+        }
+    }
 }

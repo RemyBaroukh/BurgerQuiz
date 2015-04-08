@@ -2,6 +2,8 @@ package app.rems.burgerquiz.seloupoivre;
 
 import java.util.ArrayList;
 
+import app.rems.burgerquiz.game.BurgerVariables;
+
 /**
  * Created by remsd_000 on 08/04/2015.
  */
@@ -11,6 +13,13 @@ public class SelOuPoivre {
     private String poivre;
     private String titre3;
     private ArrayList<SelOuPoivreQuestion> listQuestions = new ArrayList<>();
+
+
+    public SelOuPoivreQuestion getRandomQuestion()
+    {
+        int i = BurgerVariables.randomGenerator.nextInt(listQuestions.size());
+        return listQuestions.get(i);
+    }
 
     public SelOuPoivre(int id)
     {
