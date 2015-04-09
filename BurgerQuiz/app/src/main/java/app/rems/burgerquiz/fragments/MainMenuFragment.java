@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch;
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig;
+
 import app.rems.burgerquiz.R;
 import app.rems.burgerquiz.game.BurgerQuiz;
 import app.rems.burgerquiz.game.BurgerVariables;
@@ -67,6 +70,12 @@ public class MainMenuFragment extends Fragment {
         });
 
         tvMenuEquipe.setTypeface(BurgerVariables.customFont);
+        tvMenuEquipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TurnBasedMatchConfig.Builder builder = TurnBasedMatchConfig.builder();
+            }
+        });
 
         //Animated Burger
         ImageView ivBurger = (ImageView) v.findViewById(R.id.ivBurger);

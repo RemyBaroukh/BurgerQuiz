@@ -2,6 +2,8 @@ package app.rems.burgerquiz.game;
 
 import android.graphics.Typeface;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.util.Random;
 
 import app.rems.burgerquiz.activities.BurgerQuizActivity;
@@ -31,4 +33,6 @@ public class BurgerVariables {
     public static BurgerQuizActivity bqActivity;
     public static Random randomGenerator;
     public static Typeface customFont;
+
+    public static GoogleApiClient mGoogleApiClient;
 }
