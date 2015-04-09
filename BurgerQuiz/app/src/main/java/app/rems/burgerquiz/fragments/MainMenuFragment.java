@@ -1,6 +1,7 @@
 package app.rems.burgerquiz.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.games.Games;
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch;
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig;
 
@@ -73,7 +75,13 @@ public class MainMenuFragment extends Fragment {
         tvMenuEquipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TurnBasedMatchConfig.Builder builder = TurnBasedMatchConfig.builder();
+                Games.Achievements.unlock(BurgerVariables.mGoogleApiClient, getString(R.string.nuggets));
+                Intent intent =
+                        Games.TurnBasedMultiplayer.getInboxIntent(BurgerVariables.mGoogleApiClient);
+                BurgerVariables.bqActivity.startActivityForResult(intent, 666);
+/*                Intent intent =
+                        Games.TurnBasedMultiplayer.getSelectOpponentsIntent(BurgerVariables.mGoogleApiClient, 1, 1, true);
+                BurgerVariables.bqActivity.startActivityForResult(intent, 666);*/
             }
         });
 

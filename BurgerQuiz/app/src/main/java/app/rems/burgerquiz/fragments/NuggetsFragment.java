@@ -76,7 +76,6 @@ public class NuggetsFragment extends Fragment {
         TextView question = (TextView) llNugget.findViewById(R.id.tvQuestion);
         question.setText(n.getQuestion());
 
-
         LinearLayout llQuestion = (LinearLayout) llNugget.findViewById(R.id.llQuestion);
         if(BurgerVariables.burgerQuiz.getEquipe() == BurgerVariables.Equipe.MAYO)
         {

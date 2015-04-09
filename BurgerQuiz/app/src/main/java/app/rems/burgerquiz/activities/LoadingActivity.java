@@ -51,11 +51,7 @@ public class LoadingActivity extends Activity implements
         BurgerVariables.mGoogleApiClient.connect();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        BurgerVariables.mGoogleApiClient.disconnect();
-    }
+
 
     @Override
     public void onConnected(Bundle bundle) {

@@ -16,6 +16,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
@@ -26,9 +27,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.multiplayer.Multiplayer;
+import com.google.android.gms.games.multiplayer.realtime.RoomConfig;
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig;
+
+import java.util.ArrayList;
+
 public class BurgerQuizActivity extends Activity implements BurgerFragmentListener {
 
     LoadingFragment loadingFragment;
+    private int RC_SELECT_PLAYERS = 666;
 
 
     @Override
@@ -56,6 +65,8 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
             }
         };
         thread.start();
+
+
 
 
     }
@@ -114,5 +125,51 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
 
         ft.commit();
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        BurgerVariables.mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    public void onActivityResult(int request, int response, Intent data) {
+        super.onActivityResult(request, response, data);
+
+        if (request == RC_SELECT_PLAYERS) {
+            if (response != Activity.RESULT_OK) {
+                // user canceled
+                return;
+            }
+
+            Log.d(null, "SALUT MULTIPLAYER");
+            // Get the invitee list.
+            final ArrayList<String> invitees =
+                    data.getStringArrayListExtra(Games.EXTRA_PLAYER_IDS);
+
+            // Get auto-match criteria.
+            Bundle autoMatchCriteria = null;
+            int minAutoMatchPlayers = data.getIntExtra(
+                    Multiplayer.EXTRA_MIN_AUTOMATCH_PLAYERS, 0);
+            int maxAutoMatchPlayers = data.getIntExtra(
+                    Multiplayer.EXTRA_MAX_AUTOMATCH_PLAYERS, 0);
+            if (minAutoMatchPlayers > 0) {
+                autoMatchCriteria = RoomConfig.createAutoMatchCriteria(
+                        minAutoMatchPlayers, maxAutoMatchPlayers, 0);
+            } else {
+                autoMatchCriteria = null;
+            }
+
+            TurnBasedMatchConfig tbmc = TurnBasedMatchConfig.builder()
+                    .addInvitedPlayers(invitees)
+                    .setAutoMatchCriteria(autoMatchCriteria)
+                    .build();
+
+            // Create and start the match.
+            Games.TurnBasedMultiplayer
+                    .createMatch(BurgerVariables.mGoogleApiClient, tbmc)
+                    .setResultCallback(new MatchInitiatedCallback());
+        }
     }
 }
