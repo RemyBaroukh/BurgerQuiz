@@ -1,5 +1,7 @@
 package app.rems.burgerquiz.activities;
 
+import android.util.Log;
+
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch;
@@ -13,11 +15,14 @@ public class MatchInitiatedCallback implements ResultCallback<TurnBasedMultiplay
     @Override
     public void onResult(TurnBasedMultiplayer.InitiateMatchResult result) {
         // Check if the status code is not success.
+        Log.d(null, "Success!!");
         Status status = result.getStatus();
         if (status.isSuccess()) {
 //            showError(status.getStatusCode());
             return;
         }
+
+        Log.d(null, "Success!!");
 
         TurnBasedMatch match = result.getMatch();
 

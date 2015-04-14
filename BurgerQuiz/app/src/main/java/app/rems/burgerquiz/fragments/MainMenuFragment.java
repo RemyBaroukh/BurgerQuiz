@@ -75,13 +75,7 @@ public class MainMenuFragment extends Fragment {
         tvMenuEquipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Games.Achievements.unlock(BurgerVariables.mGoogleApiClient, getString(R.string.nuggets));
-                Intent intent =
-                        Games.TurnBasedMultiplayer.getInboxIntent(BurgerVariables.mGoogleApiClient);
-                BurgerVariables.bqActivity.startActivityForResult(intent, 666);
-/*                Intent intent =
-                        Games.TurnBasedMultiplayer.getSelectOpponentsIntent(BurgerVariables.mGoogleApiClient, 1, 1, true);
-                BurgerVariables.bqActivity.startActivityForResult(intent, 666);*/
+
             }
         });
 

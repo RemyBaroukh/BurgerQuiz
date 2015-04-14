@@ -106,7 +106,6 @@ public class SelOuPoivreManager {
                 Log.d(null, "Burger Quiz - " + question.toString());
 
             }
-            BurgerVariables.burgerQuiz.nextEpreuve();
 
 
         } catch (Exception e) {
