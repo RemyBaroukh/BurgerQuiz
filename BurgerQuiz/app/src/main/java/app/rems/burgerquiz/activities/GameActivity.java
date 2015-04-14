@@ -52,12 +52,10 @@ import app.rems.burgerquiz.game.BurgerVariables;
 public class GameActivity extends Activity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         OnInvitationReceivedListener, OnTurnBasedMatchUpdateReceivedListener,
-        View.OnClickListener {
+        View.OnClickListener  {
 
     public static final String TAG = "SkeletonActivity";
 
-    // Client used to interact with Google APIs
-    private GoogleApiClient mGoogleApiClient;
 
     // Are we currently resolving a connection failure?
     private boolean mResolvingConnectionFailure = false;
@@ -105,7 +103,7 @@ public class GameActivity extends Activity
 
 
         // Create the Google API Client with access to Plus and Games
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        BurgerVariables.mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN)
@@ -124,15 +122,15 @@ public class GameActivity extends Activity
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart(): Connecting to Google APIs");
-        mGoogleApiClient.connect();
+        BurgerVariables.mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "onStop(): Disconnecting from Google APIs");
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
+        if (BurgerVariables.mGoogleApiClient.isConnected()) {
+            BurgerVariables.mGoogleApiClient.disconnect();
         }
     }
 
@@ -145,7 +143,7 @@ public class GameActivity extends Activity
             mTurnBasedMatch = connectionHint.getParcelable(Multiplayer.EXTRA_TURN_BASED_MATCH);
 
             if (mTurnBasedMatch != null) {
-                if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
+                if (BurgerVariables.mGoogleApiClient == null || !BurgerVariables.mGoogleApiClient.isConnected()) {
                     Log.d(TAG, "Warning: accessing TurnBasedMatch when not connected");
                 }
 
@@ -162,18 +160,18 @@ public class GameActivity extends Activity
         // This is *NOT* required; if you do not register a handler for
         // invitation events, you will get standard notifications instead.
         // Standard notifications may be preferable behavior in many cases.
-        Games.Invitations.registerInvitationListener(mGoogleApiClient, this);
+        Games.Invitations.registerInvitationListener( BurgerVariables.mGoogleApiClient, this);
 
         // Likewise, we are registering the optional MatchUpdateListener, which
         // will replace notifications you would get otherwise. You do *NOT* have
         // to register a MatchUpdateListener.
-        Games.TurnBasedMultiplayer.registerMatchUpdateListener(mGoogleApiClient, this);
+        Games.TurnBasedMultiplayer.registerMatchUpdateListener( BurgerVariables.mGoogleApiClient, this);
     }
 
     @Override
     public void onConnectionSuspended(int i) {
         Log.d(TAG, "onConnectionSuspended():  Trying to reconnect.");
-        mGoogleApiClient.connect();
+         BurgerVariables.mGoogleApiClient.connect();
         setViewVisibility();
     }
 
@@ -192,7 +190,7 @@ public class GameActivity extends Activity
             mSignInClicked = false;
 
             mResolvingConnectionFailure = BaseGameUtils.resolveConnectionFailure(this,
-                    mGoogleApiClient, connectionResult, RC_SIGN_IN,
+                     BurgerVariables.mGoogleApiClient, connectionResult, RC_SIGN_IN,
                     "error de merde");
         }
 
@@ -202,14 +200,14 @@ public class GameActivity extends Activity
     // Displays your inbox. You will get back onActivityResult where
     // you will need to figure out what you clicked on.
     public void onCheckGamesClicked(View view) {
-        Intent intent = Games.TurnBasedMultiplayer.getInboxIntent(mGoogleApiClient);
+        Intent intent = Games.TurnBasedMultiplayer.getInboxIntent( BurgerVariables.mGoogleApiClient);
         startActivityForResult(intent, RC_LOOK_AT_MATCHES);
     }
 
     // Open the create-game UI. You will get back an onActivityResult
     // and figure out what to do.
     public void onStartMatchClicked(View view) {
-        Intent intent = Games.TurnBasedMultiplayer.getSelectOpponentsIntent(mGoogleApiClient,
+        Intent intent = Games.TurnBasedMultiplayer.getSelectOpponentsIntent( BurgerVariables.mGoogleApiClient,
                 1, 7, true);
         startActivityForResult(intent, RC_SELECT_PLAYERS);
     }
@@ -232,7 +230,7 @@ public class GameActivity extends Activity
                 processResult(result);
             }
         };
-        Games.TurnBasedMultiplayer.createMatch(mGoogleApiClient, tbmc).setResultCallback(cb);
+        Games.TurnBasedMultiplayer.createMatch( BurgerVariables.mGoogleApiClient, tbmc).setResultCallback(cb);
     }
 
     // In-game controls
@@ -241,7 +239,7 @@ public class GameActivity extends Activity
     // giving up on the view.
     public void onCancelClicked(View view) {
         showSpinner();
-        Games.TurnBasedMultiplayer.cancelMatch(mGoogleApiClient, mMatch.getMatchId())
+        Games.TurnBasedMultiplayer.cancelMatch( BurgerVariables.mGoogleApiClient, mMatch.getMatchId())
                 .setResultCallback(new ResultCallback<TurnBasedMultiplayer.CancelMatchResult>() {
                     @Override
                     public void onResult(TurnBasedMultiplayer.CancelMatchResult result) {
@@ -258,7 +256,7 @@ public class GameActivity extends Activity
         showSpinner();
         String nextParticipantId = getNextParticipantId();
 
-        Games.TurnBasedMultiplayer.leaveMatchDuringTurn(mGoogleApiClient, mMatch.getMatchId(),
+        Games.TurnBasedMultiplayer.leaveMatchDuringTurn( BurgerVariables.mGoogleApiClient, mMatch.getMatchId(),
                 nextParticipantId).setResultCallback(
                 new ResultCallback<TurnBasedMultiplayer.LeaveMatchResult>() {
                     @Override
@@ -272,7 +270,7 @@ public class GameActivity extends Activity
     // Finish the game. Sometimes, this is your only choice.
     public void onFinishClicked(View view) {
         showSpinner();
-        Games.TurnBasedMultiplayer.finishMatch(mGoogleApiClient, mMatch.getMatchId())
+        Games.TurnBasedMultiplayer.finishMatch( BurgerVariables.mGoogleApiClient, mMatch.getMatchId())
                 .setResultCallback(new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>() {
                     @Override
                     public void onResult(TurnBasedMultiplayer.UpdateMatchResult result) {
@@ -297,7 +295,7 @@ public class GameActivity extends Activity
 
         showSpinner();
 
-        Games.TurnBasedMultiplayer.takeTurn(mGoogleApiClient, mMatch.getMatchId(),
+        Games.TurnBasedMultiplayer.takeTurn( BurgerVariables.mGoogleApiClient, mMatch.getMatchId(),
                 mTurnData.persist(), nextParticipantId).setResultCallback(
                 new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>() {
                     @Override
@@ -313,7 +311,7 @@ public class GameActivity extends Activity
 
     // Update the visibility based on what state we're in.
     public void setViewVisibility() {
-        boolean isSignedIn = (mGoogleApiClient != null) && (mGoogleApiClient.isConnected());
+        boolean isSignedIn = ( BurgerVariables.mGoogleApiClient != null) && ( BurgerVariables.mGoogleApiClient.isConnected());
 
         if (!isSignedIn) {
             findViewById(R.id.login_layout).setVisibility(View.VISIBLE);
@@ -329,7 +327,7 @@ public class GameActivity extends Activity
 
 
         ((TextView) findViewById(R.id.name_field)).setText(Games.Players.getCurrentPlayer(
-                mGoogleApiClient).getDisplayName());
+                 BurgerVariables.mGoogleApiClient).getDisplayName());
         findViewById(R.id.login_layout).setVisibility(View.GONE);
 
         if (isDoingTurn) {
@@ -417,7 +415,7 @@ public class GameActivity extends Activity
             mSignInClicked = false;
             mResolvingConnectionFailure = false;
             if (response == Activity.RESULT_OK) {
-                mGoogleApiClient.connect();
+                 BurgerVariables.mGoogleApiClient.connect();
             } else {
                 BaseGameUtils.showActivityResultError(this, request, response, R.string.sign_in_failed);
             }
@@ -469,7 +467,7 @@ public class GameActivity extends Activity
                     .setAutoMatchCriteria(autoMatchCriteria).build();
 
             // Start the match
-            Games.TurnBasedMultiplayer.createMatch(mGoogleApiClient, tbmc).setResultCallback(
+            Games.TurnBasedMultiplayer.createMatch( BurgerVariables.mGoogleApiClient, tbmc).setResultCallback(
                     new ResultCallback<TurnBasedMultiplayer.InitiateMatchResult>() {
                         @Override
                         public void onResult(TurnBasedMultiplayer.InitiateMatchResult result) {
@@ -493,12 +491,12 @@ public class GameActivity extends Activity
 
         mMatch = match;
 
-        String playerId = Games.Players.getCurrentPlayerId(mGoogleApiClient);
+        String playerId = Games.Players.getCurrentPlayerId( BurgerVariables.mGoogleApiClient);
         String myParticipantId = mMatch.getParticipantId(playerId);
 
         showSpinner();
 
-        Games.TurnBasedMultiplayer.takeTurn(mGoogleApiClient, match.getMatchId(),
+        Games.TurnBasedMultiplayer.takeTurn( BurgerVariables.mGoogleApiClient, match.getMatchId(),
                 mTurnData.persist(), myParticipantId).setResultCallback(
                 new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>() {
                     @Override
@@ -511,7 +509,7 @@ public class GameActivity extends Activity
     // If you choose to rematch, then call it and wait for a response.
     public void rematch() {
         showSpinner();
-        Games.TurnBasedMultiplayer.rematch(mGoogleApiClient, mMatch.getMatchId()).setResultCallback(
+        Games.TurnBasedMultiplayer.rematch( BurgerVariables.mGoogleApiClient, mMatch.getMatchId()).setResultCallback(
                 new ResultCallback<TurnBasedMultiplayer.InitiateMatchResult>() {
                     @Override
                     public void onResult(TurnBasedMultiplayer.InitiateMatchResult result) {
@@ -532,7 +530,7 @@ public class GameActivity extends Activity
      */
     public String getNextParticipantId() {
 
-        String playerId = Games.Players.getCurrentPlayerId(mGoogleApiClient);
+        String playerId = Games.Players.getCurrentPlayerId( BurgerVariables.mGoogleApiClient);
         String myParticipantId = mMatch.getParticipantId(playerId);
 
         ArrayList<String> participantIds = mMatch.getParticipantIds();
@@ -772,13 +770,13 @@ public class GameActivity extends Activity
                 mSignInClicked = true;
                 mTurnBasedMatch = null;
                 findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-                mGoogleApiClient.connect();
+                 BurgerVariables.mGoogleApiClient.connect();
                 break;
             case R.id.sign_out_button:
                 mSignInClicked = false;
-                Games.signOut(mGoogleApiClient);
-                if (mGoogleApiClient.isConnected()) {
-                    mGoogleApiClient.disconnect();
+                Games.signOut( BurgerVariables.mGoogleApiClient);
+                if ( BurgerVariables.mGoogleApiClient.isConnected()) {
+                     BurgerVariables.mGoogleApiClient.disconnect();
                 }
                 setViewVisibility();
                 break;
