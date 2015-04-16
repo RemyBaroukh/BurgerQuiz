@@ -48,7 +48,7 @@ public class BurgerQuiz {
                 break;
         }
         Log.d(null, "Burger Quiz - Changement d'Epreuve " + currentEpreuve.toString());
-        BurgerVariables.bqActivity.showEpreuve();
+       // BurgerVariables.bqActivity.showEpreuve();
     }
 
     public BurgerVariables.Equipe getEquipe() {

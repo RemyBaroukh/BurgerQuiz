@@ -30,6 +30,8 @@ import com.google.example.games.basegameutils.BaseGameUtils;
 
 import app.rems.burgerquiz.R;
 import app.rems.burgerquiz.game.BurgerVariables;
+import app.rems.burgerquiz.utils.BurgerFragmentListener;
+import app.rems.burgerquiz.utils.GameEngineHelper;
 
 
 /**
@@ -49,10 +51,7 @@ import app.rems.burgerquiz.game.BurgerVariables;
  *
  * @author Wolff (wolff@google.com), 2013
  */
-public class GameActivity extends Activity
-        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        OnInvitationReceivedListener, OnTurnBasedMatchUpdateReceivedListener,
-        View.OnClickListener  {
+public class GameActivity extends GameEngineActivity implements BurgerFragmentListener {
 
     public static final String TAG = "SkeletonActivity";
 
@@ -64,18 +63,13 @@ public class GameActivity extends Activity
     private TurnBasedMatch mTurnBasedMatch;
 
     // Local convenience pointers
-    public TextView mDataView;
-    public TextView mTurnTextView;
 
-    private AlertDialog mAlertDialog;
+
 
     // For our intents
     private static final int RC_SIGN_IN = 9001;
     final static int RC_SELECT_PLAYERS = 10000;
     final static int RC_LOOK_AT_MATCHES = 10001;
-
-    // How long to show toasts.
-    final static int TOAST_DELAY = Toast.LENGTH_SHORT;
 
     // Should I be showing the turn API?
     public boolean isDoingTurn = false;
@@ -95,6 +89,7 @@ public class GameActivity extends Activity
 
         getActionBar().hide();
 
+        BurgerVariables.bqActivity = this;
 
         // Create the Google API Client with access to Plus and Games
         BurgerVariables.mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -108,8 +103,7 @@ public class GameActivity extends Activity
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
-        mDataView = ((TextView) findViewById(R.id.data_view));
-        mTurnTextView = ((TextView) findViewById(R.id.turn_counter_view));
+
     }
 
     @Override
@@ -194,14 +188,14 @@ public class GameActivity extends Activity
     // Displays your inbox. You will get back onActivityResult where
     // you will need to figure out what you clicked on.
     public void onCheckGamesClicked(View view) {
-        Intent intent = Games.TurnBasedMultiplayer.getInboxIntent( BurgerVariables.mGoogleApiClient);
+        Intent intent = Games.TurnBasedMultiplayer.getInboxIntent(BurgerVariables.mGoogleApiClient);
         startActivityForResult(intent, RC_LOOK_AT_MATCHES);
     }
 
     // Open the create-game UI. You will get back an onActivityResult
     // and figure out what to do.
     public void onStartMatchClicked(View view) {
-        Intent intent = Games.TurnBasedMultiplayer.getSelectOpponentsIntent( BurgerVariables.mGoogleApiClient,
+        Intent intent = Games.TurnBasedMultiplayer.getSelectOpponentsIntent(BurgerVariables.mGoogleApiClient,
                 1, 7, true);
         startActivityForResult(intent, RC_SELECT_PLAYERS);
     }
@@ -276,33 +270,6 @@ public class GameActivity extends Activity
         setViewVisibility();
     }
 
-
-    // Upload your new gamestate, then take a turn, and pass it on to the next
-    // player.
-    public void onDoneClicked(View view) {
-        showSpinner();
-
-        String nextParticipantId = getNextParticipantId();
-        // Create the next turn
-        mTurnData.turnCounter += 1;
-        //mTurnData.data = mDataView.getText().toString();
-
-        showSpinner();
-
-        Games.TurnBasedMultiplayer.takeTurn( BurgerVariables.mGoogleApiClient, mMatch.getMatchId(),
-                mTurnData.persist(), nextParticipantId).setResultCallback(
-                new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>() {
-                    @Override
-                    public void onResult(TurnBasedMultiplayer.UpdateMatchResult result) {
-                        processResult(result);
-                    }
-                });
-
-        mTurnData = null;
-    }
-
-    // Sign-in, Sign out behavior
-
     // Update the visibility based on what state we're in.
     public void setViewVisibility() {
         boolean isSignedIn = ( BurgerVariables.mGoogleApiClient != null) && ( BurgerVariables.mGoogleApiClient.isConnected());
@@ -313,8 +280,8 @@ public class GameActivity extends Activity
             findViewById(R.id.matchup_layout).setVisibility(View.GONE);
             findViewById(R.id.gameplay_layout).setVisibility(View.GONE);
 
-            if (mAlertDialog != null) {
-                mAlertDialog.dismiss();
+            if (GameEngineHelper.mAlertDialog != null) {
+                GameEngineHelper.mAlertDialog.dismiss();
             }
             return;
         }
@@ -338,7 +305,6 @@ public class GameActivity extends Activity
         isDoingTurn = true;
         setViewVisibility();
         //mDataView.setText(mTurnData.data);
-        mTurnTextView.setText("Turn " + mTurnData.turnCounter);
     }
 
     // Helpful dialogs
@@ -351,29 +317,7 @@ public class GameActivity extends Activity
         findViewById(R.id.progressLayout).setVisibility(View.GONE);
     }
 
-    // Generic warning/info dialog
-    public void showWarning(String title, String message) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        // set title
-        alertDialogBuilder.setTitle(title).setMessage(message);
-
-        // set dialog message
-        alertDialogBuilder.setCancelable(false).setPositiveButton("OK",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        // if this button is clicked, close
-                        // current activity
-                    }
-                });
-
-        // create alert dialog
-        mAlertDialog = alertDialogBuilder.create();
-
-        // show it
-        mAlertDialog.show();
-    }
 
     // Rematch dialog
     public void askForRematch() {
@@ -524,7 +468,7 @@ public class GameActivity extends Activity
      */
     public String getNextParticipantId() {
 
-        String playerId = Games.Players.getCurrentPlayerId( BurgerVariables.mGoogleApiClient);
+        String playerId = Games.Players.getCurrentPlayerId(BurgerVariables.mGoogleApiClient);
         String myParticipantId = mMatch.getParticipantId(playerId);
 
         ArrayList<String> participantIds = mMatch.getParticipantIds();
@@ -561,18 +505,18 @@ public class GameActivity extends Activity
 
         switch (status) {
             case TurnBasedMatch.MATCH_STATUS_CANCELED:
-                showWarning("Canceled!", "This game was canceled!");
+                GameEngineHelper.showWarning("Canceled!", "This game was canceled!");
                 return;
             case TurnBasedMatch.MATCH_STATUS_EXPIRED:
-                showWarning("Expired!", "This game is expired.  So sad!");
+                GameEngineHelper.showWarning("Expired!", "This game is expired.  So sad!");
                 return;
             case TurnBasedMatch.MATCH_STATUS_AUTO_MATCHING:
-                showWarning("Waiting for auto-match...",
+                GameEngineHelper.showWarning("Waiting for auto-match...",
                         "We're still waiting for an automatch partner.");
                 return;
             case TurnBasedMatch.MATCH_STATUS_COMPLETE:
                 if (turnStatus == TurnBasedMatch.MATCH_TURN_STATUS_COMPLETE) {
-                    showWarning(
+                    GameEngineHelper.showWarning(
                             "Complete!",
                             "This game is over; someone finished it, and so did you!  There is nothing to be done.");
                     break;
@@ -580,7 +524,7 @@ public class GameActivity extends Activity
 
                 // Note that in this state, you must still call "Finish" yourself,
                 // so we allow this to continue.
-                showWarning("Complete!",
+                GameEngineHelper.showWarning("Complete!",
                         "This game is over; someone finished it!  You can only finish it now.");
         }
 
@@ -592,10 +536,10 @@ public class GameActivity extends Activity
                 return;
             case TurnBasedMatch.MATCH_TURN_STATUS_THEIR_TURN:
                 // Should return results.
-                showWarning("Alas...", "It's not your turn.");
+                GameEngineHelper.showWarning("Alas...", "It's not your turn.");
                 break;
             case TurnBasedMatch.MATCH_TURN_STATUS_INVITED:
-                showWarning("Good inititative!",
+                GameEngineHelper.showWarning("Good inititative!",
                         "Still waiting for invitations.\n\nBe patient!");
         }
 
@@ -607,13 +551,13 @@ public class GameActivity extends Activity
     private void processResult(TurnBasedMultiplayer.CancelMatchResult result) {
         dismissSpinner();
 
-        if (!checkStatusCode(null, result.getStatus().getStatusCode())) {
+        if (!GameEngineHelper.checkStatusCode(null, result.getStatus().getStatusCode())) {
             return;
         }
 
         isDoingTurn = false;
 
-        showWarning("Match",
+        GameEngineHelper.showWarning("Match",
                 "This match is canceled.  All other players will have their game ended.");
     }
 
@@ -621,7 +565,7 @@ public class GameActivity extends Activity
         TurnBasedMatch match = result.getMatch();
         dismissSpinner();
 
-        if (!checkStatusCode(match, result.getStatus().getStatusCode())) {
+        if (!GameEngineHelper.checkStatusCode(match, result.getStatus().getStatusCode())) {
             return;
         }
 
@@ -638,18 +582,18 @@ public class GameActivity extends Activity
     private void processResult(TurnBasedMultiplayer.LeaveMatchResult result) {
         TurnBasedMatch match = result.getMatch();
         dismissSpinner();
-        if (!checkStatusCode(match, result.getStatus().getStatusCode())) {
+        if (!GameEngineHelper.checkStatusCode(match, result.getStatus().getStatusCode())) {
             return;
         }
         isDoingTurn = (match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN);
-        showWarning("Left", "You've left this match.");
+        GameEngineHelper.showWarning("Left", "You've left this match.");
     }
 
 
     public void processResult(TurnBasedMultiplayer.UpdateMatchResult result) {
         TurnBasedMatch match = result.getMatch();
         dismissSpinner();
-        if (!checkStatusCode(match, result.getStatus().getStatusCode())) {
+        if (!GameEngineHelper.checkStatusCode(match, result.getStatus().getStatusCode())) {
             return;
         }
         if (match.canRematch()) {
@@ -672,83 +616,14 @@ public class GameActivity extends Activity
         Toast.makeText(
                 this,
                 "An invitation has arrived from "
-                        + invitation.getInviter().getDisplayName(), TOAST_DELAY)
+                        + invitation.getInviter().getDisplayName(), GameEngineHelper.TOAST_DELAY)
                 .show();
     }
 
-    @Override
-    public void onInvitationRemoved(String invitationId) {
-        Toast.makeText(this, "An invitation was removed.", TOAST_DELAY).show();
-    }
 
-    @Override
-    public void onTurnBasedMatchReceived(TurnBasedMatch match) {
-        Toast.makeText(this, "A match was updated.", TOAST_DELAY).show();
-    }
 
-    @Override
-    public void onTurnBasedMatchRemoved(String matchId) {
-        Toast.makeText(this, "A match was removed.", TOAST_DELAY).show();
 
-    }
 
-    public void showErrorMessage(TurnBasedMatch match, int statusCode,
-                                 int stringId) {
-
-        showWarning("Warning", getResources().getString(stringId));
-    }
-
-    // Returns false if something went wrong, probably. This should handle
-    // more cases, and probably report more accurate results.
-    private boolean checkStatusCode(TurnBasedMatch match, int statusCode) {
-        switch (statusCode) {
-            case GamesStatusCodes.STATUS_OK:
-                return true;
-            case GamesStatusCodes.STATUS_NETWORK_ERROR_OPERATION_DEFERRED:
-                // This is OK; the action is stored by Google Play Services and will
-                // be dealt with later.
-                Toast.makeText(
-                        this,
-                        "Stored action for later.  (Please remove this toast before release.)",
-                        TOAST_DELAY).show();
-                // NOTE: This toast is for informative reasons only; please remove
-                // it from your final application.
-                return true;
-            case GamesStatusCodes.STATUS_MULTIPLAYER_ERROR_NOT_TRUSTED_TESTER:
-                showErrorMessage(match, statusCode,
-                        R.string.status_multiplayer_error_not_trusted_tester);
-                break;
-            case GamesStatusCodes.STATUS_MATCH_ERROR_ALREADY_REMATCHED:
-                showErrorMessage(match, statusCode,
-                        R.string.match_error_already_rematched);
-                break;
-            case GamesStatusCodes.STATUS_NETWORK_ERROR_OPERATION_FAILED:
-                showErrorMessage(match, statusCode,
-                        R.string.network_error_operation_failed);
-                break;
-            case GamesStatusCodes.STATUS_CLIENT_RECONNECT_REQUIRED:
-                showErrorMessage(match, statusCode,
-                        R.string.client_reconnect_required);
-                break;
-            case GamesStatusCodes.STATUS_INTERNAL_ERROR:
-                showErrorMessage(match, statusCode, R.string.internal_error);
-                break;
-            case GamesStatusCodes.STATUS_MATCH_ERROR_INACTIVE_MATCH:
-                showErrorMessage(match, statusCode,
-                        R.string.match_error_inactive_match);
-                break;
-            case GamesStatusCodes.STATUS_MATCH_ERROR_LOCALLY_MODIFIED:
-                showErrorMessage(match, statusCode,
-                        R.string.match_error_locally_modified);
-                break;
-            default:
-                showErrorMessage(match, statusCode, R.string.unexpected_status);
-                Log.d(TAG, "Did not have warning or string to deal with: "
-                        + statusCode);
-        }
-
-        return false;
-    }
 
     @Override
     public void onClick(View v) {
@@ -775,5 +650,10 @@ public class GameActivity extends Activity
                 setViewVisibility();
                 break;
         }
+    }
+
+    @Override
+    public void showEpreuve() {
+
     }
 }

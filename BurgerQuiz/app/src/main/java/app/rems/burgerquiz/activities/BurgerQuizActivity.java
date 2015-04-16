@@ -43,7 +43,6 @@ public class BurgerQuizActivity extends Activity implements BurgerFragmentListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BurgerVariables.bqActivity = this;
         setContentView(R.layout.activity_burger_quiz);
         setUpUi();
         loadingFragment = (LoadingFragment) getFragmentManager().findFragmentById(R.id.fragment);
