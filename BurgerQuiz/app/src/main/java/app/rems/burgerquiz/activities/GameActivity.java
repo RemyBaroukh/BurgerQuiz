@@ -2,11 +2,16 @@ package app.rems.burgerquiz.activities;
 
 import java.util.ArrayList;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -29,6 +34,10 @@ import com.google.android.gms.plus.Plus;
 import com.google.example.games.basegameutils.BaseGameUtils;
 
 import app.rems.burgerquiz.R;
+import app.rems.burgerquiz.fragments.MainMenuFragment;
+import app.rems.burgerquiz.fragments.NuggetsFragment;
+import app.rems.burgerquiz.fragments.ScoreFragment;
+import app.rems.burgerquiz.fragments.SelOuPoivreFragment;
 import app.rems.burgerquiz.game.BurgerVariables;
 import app.rems.burgerquiz.utils.BurgerFragmentListener;
 import app.rems.burgerquiz.utils.GameEngineHelper;
@@ -305,6 +314,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
         isDoingTurn = true;
         setViewVisibility();
         //mDataView.setText(mTurnData.data);
+        BurgerVariables.burgerQuiz.nextEpreuve();
     }
 
     // Helpful dialogs
@@ -620,6 +630,27 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
                 .show();
     }
 
+    public void onDoneClicked(View view) {
+        showSpinner();
+
+        String nextParticipantId = getNextParticipantId();
+        // Create the next turn
+        mTurnData.turnCounter += 1;
+        //mTurnData.data = mDataView.getText().toString();
+
+        showSpinner();
+
+        Games.TurnBasedMultiplayer.takeTurn( BurgerVariables.mGoogleApiClient, mMatch.getMatchId(),
+                mTurnData.persist(), nextParticipantId).setResultCallback(
+                new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>() {
+                    @Override
+                    public void onResult(TurnBasedMultiplayer.UpdateMatchResult result) {
+                        processResult(result);
+                    }
+                });
+
+        mTurnData = null;
+    }
 
 
 
@@ -652,8 +683,46 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
         }
     }
 
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void showEpreuve() {
 
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+        Log.d(null, "Burger Quiz - Changment d'Epreuve - UI " );
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+        Fragment epreuve;
+
+        switch(BurgerVariables.burgerQuiz.getCurrentEpreuve())
+        {
+            case SCORE:
+                epreuve = ScoreFragment.newInstance();
+                break;
+            case MAINMENU:
+                epreuve = MainMenuFragment.newInstance();
+                break;
+            case NUGGETS:
+                epreuve = NuggetsFragment.newInstance();
+                break;
+            case SELOUPOIVRE:
+                epreuve = SelOuPoivreFragment.newInstance();
+                break;
+            default:
+                epreuve = NuggetsFragment.newInstance();
+                break;
+        }
+        //TODO: DELETE THAT
+        epreuve.setEnterTransition(new Fade(Fade.IN));
+        epreuve.setExitTransition(new Fade(Fade.OUT));
+        ft.replace(R.id.fragment2, epreuve);
+
+        ft.commit();
+
+            }
+        });
     }
 }

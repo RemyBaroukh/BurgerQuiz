@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import app.rems.burgerquiz.game.BurgerVariables;
 import app.rems.burgerquiz.nuggets.Nugget;
+import app.rems.burgerquiz.utils.BurgerFragmentListener;
 
 /**
  * Created by remsd_000 on 08/04/2015.
@@ -106,6 +107,8 @@ public class SelOuPoivreManager {
                 Log.d(null, "Burger Quiz - " + question.toString());
 
             }
+
+
 
 
         } catch (Exception e) {

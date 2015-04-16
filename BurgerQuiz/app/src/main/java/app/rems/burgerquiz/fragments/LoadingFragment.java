@@ -3,6 +3,7 @@ package app.rems.burgerquiz.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +16,10 @@ import com.google.android.gms.games.Games;
 import org.w3c.dom.Text;
 
 import app.rems.burgerquiz.R;
+import app.rems.burgerquiz.game.BurgerQuiz;
 import app.rems.burgerquiz.game.BurgerVariables;
+import app.rems.burgerquiz.nuggets.NuggetsManager;
+import app.rems.burgerquiz.seloupoivre.SelOuPoivreManager;
 import app.rems.burgerquiz.utils.BurgerFragmentListener;
 
 /**
@@ -41,6 +45,43 @@ public class LoadingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        BurgerVariables.burgerQuiz = new BurgerQuiz();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                }
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        loadManagers();
+                    }
+                };
+                thread.start();
+            }
+        };
+        thread.start();
+
+
+
+
+    }
+
+    private void loadManagers() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                BurgerVariables.customFont = Typeface.createFromAsset(BurgerVariables.bqActivity.getAssets(),
+                        "fonts/horseshoeslemonade.ttf");
+                NuggetsManager.loadNuggets();
+                SelOuPoivreManager.loadSelOuPoivre();
+                SelOuPoivreManager.loadSelOuPoivreQuestions();
+
+            }
+        }).start();
     }
 
     @Override
