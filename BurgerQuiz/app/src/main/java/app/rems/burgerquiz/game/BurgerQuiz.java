@@ -2,6 +2,8 @@ package app.rems.burgerquiz.game;
 
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.util.Random;
 
 /**
@@ -24,6 +26,7 @@ public class BurgerQuiz {
         BurgerVariables.randomGenerator = new Random();
         Log.d(null, "Burger Quiz - Choix de l'equipe " + equipe.toString());
     }
+
 
     public void nextEpreuve() {
 

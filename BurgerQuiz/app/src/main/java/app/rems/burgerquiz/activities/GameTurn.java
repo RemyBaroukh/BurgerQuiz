@@ -15,7 +15,8 @@ public class GameTurn {
 
     public static final String TAG = "EBTurn";
 
-    public String data = "";
+    public int mayoPoints = 0;
+    public int ketchupPoints = 0;
     public int turnCounter;
 
     public GameTurn() {
@@ -26,7 +27,8 @@ public class GameTurn {
         JSONObject retVal = new JSONObject();
 
         try {
-            retVal.put("data", data);
+            retVal.put("mayoPoints", mayoPoints);
+            retVal.put("ketchupPoints", ketchupPoints);
             retVal.put("turnCounter", turnCounter);
 
         } catch (JSONException e) {
@@ -64,11 +66,14 @@ public class GameTurn {
         try {
             JSONObject obj = new JSONObject(st);
 
-            if (obj.has("data")) {
-                retVal.data = obj.getString("data");
+            if (obj.has("mayoPoints")) {
+                retVal.mayoPoints = obj.getInt("mayoPoints");
             }
             if (obj.has("turnCounter")) {
                 retVal.turnCounter = obj.getInt("turnCounter");
+            }
+            if (obj.has("ketchupPoints")) {
+                retVal.ketchupPoints = obj.getInt("ketchupPoints");
             }
 
         } catch (JSONException e) {

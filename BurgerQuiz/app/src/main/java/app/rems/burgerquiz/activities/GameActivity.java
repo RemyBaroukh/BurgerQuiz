@@ -56,14 +56,8 @@ public class GameActivity extends Activity
 
     public static final String TAG = "SkeletonActivity";
 
-
-    // Are we currently resolving a connection failure?
     private boolean mResolvingConnectionFailure = false;
-
-    // Has the user clicked the sign-in button?
     private boolean mSignInClicked = false;
-
-    // Automatically start the sign-in flow when the Activity starts
     private boolean mAutoStartSignInFlow = true;
 
     // Current turn-based match
@@ -291,7 +285,7 @@ public class GameActivity extends Activity
         String nextParticipantId = getNextParticipantId();
         // Create the next turn
         mTurnData.turnCounter += 1;
-        mTurnData.data = mDataView.getText().toString();
+        //mTurnData.data = mDataView.getText().toString();
 
         showSpinner();
 
@@ -343,7 +337,7 @@ public class GameActivity extends Activity
     public void setGameplayUI() {
         isDoingTurn = true;
         setViewVisibility();
-        mDataView.setText(mTurnData.data);
+        //mDataView.setText(mTurnData.data);
         mTurnTextView.setText("Turn " + mTurnData.turnCounter);
     }
 
@@ -487,7 +481,7 @@ public class GameActivity extends Activity
     public void startMatch(TurnBasedMatch match) {
         mTurnData = new GameTurn();
         // Some basic turn data
-        mTurnData.data = "First turn";
+        //mTurnData.data = "First turn";
 
         mMatch = match;
 
