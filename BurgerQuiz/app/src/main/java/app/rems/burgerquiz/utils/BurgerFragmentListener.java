@@ -9,4 +9,6 @@ import android.net.Uri;
 public interface BurgerFragmentListener {
     public void showEpreuve();
 
+    public void nextTurn();
+
 }

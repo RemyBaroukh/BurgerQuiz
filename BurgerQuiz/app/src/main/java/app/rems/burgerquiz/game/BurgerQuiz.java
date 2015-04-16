@@ -14,7 +14,8 @@ public class BurgerQuiz {
     private BurgerVariables.Equipe equipe;
     private Boolean asStart = false;
     private BurgerVariables.Epreuve currentEpreuve = BurgerVariables.Epreuve.SPLASHSCREEN;
-    private int currentScore;
+    private int currentScoreMayo;
+    private int currentScoreKetchup;
 
     public BurgerQuiz() {
         Log.d(null, "Burger Quiz - Creation du jeu");
@@ -47,7 +48,7 @@ public class BurgerQuiz {
             default:
                 break;
         }
-        Log.d(null, "Burger Quiz - Changement d'Epreuve " + currentEpreuve.toString());
+        Log.d(null, "Burger Quiz - Changement d'Epreuve " + currentEpreuve.toString() + " " + currentScoreMayo + " " + currentScoreKetchup);
        BurgerVariables.bqActivity.showEpreuve();
     }
 
@@ -76,15 +77,24 @@ public class BurgerQuiz {
     }
 
     public int getCurrentScore() {
-        return currentScore;
+        if (equipe == BurgerVariables.Equipe.KETCHUP)
+            return currentScoreKetchup;
+        else
+            return currentScoreMayo;
     }
 
     public void setCurrentScore(int currentScore) {
-        this.currentScore = currentScore;
+        if (equipe == BurgerVariables.Equipe.KETCHUP)
+            currentScoreKetchup = currentScore;
+        else
+            currentScoreMayo = currentScore;
     }
 
     public void addOneToScore()
     {
-        this.currentScore++;
+        if (equipe == BurgerVariables.Equipe.KETCHUP)
+            this.currentScoreKetchup++;
+        else
+            this.currentScoreMayo++;
     }
 }

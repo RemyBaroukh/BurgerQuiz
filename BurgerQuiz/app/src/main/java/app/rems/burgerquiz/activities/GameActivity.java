@@ -63,42 +63,33 @@ import app.rems.burgerquiz.utils.GameEngineHelper;
 public class GameActivity extends GameEngineActivity implements BurgerFragmentListener {
 
     public static final String TAG = "SkeletonActivity";
-
-    private boolean mResolvingConnectionFailure = false;
-    private boolean mSignInClicked = false;
-    private boolean mAutoStartSignInFlow = true;
-
-    // Current turn-based match
-    private TurnBasedMatch mTurnBasedMatch;
-
-    // Local convenience pointers
-
-
-
-    // For our intents
-    private static final int RC_SIGN_IN = 9001;
     final static int RC_SELECT_PLAYERS = 10000;
     final static int RC_LOOK_AT_MATCHES = 10001;
-
+    // For our intents
+    private static final int RC_SIGN_IN = 9001;
     // Should I be showing the turn API?
     public boolean isDoingTurn = false;
 
+    // Local convenience pointers
     // This is the current match we're in; null if not loaded
     public TurnBasedMatch mMatch;
-
     // This is the current match data after being unpersisted.
     // Do not retain references to match data once you have
     // taken an action on the match, such as takeTurn()
     public GameTurn mTurnData;
+    private boolean mResolvingConnectionFailure = false;
+    private boolean mSignInClicked = false;
+    private boolean mAutoStartSignInFlow = true;
+    // Current turn-based match
+    private TurnBasedMatch mTurnBasedMatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BurgerVariables.bqActivity = this;
         setContentView(R.layout.activity_main);
 
         getActionBar().hide();
-
-        BurgerVariables.bqActivity = this;
 
         // Create the Google API Client with access to Plus and Games
         BurgerVariables.mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -157,18 +148,18 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
         // This is *NOT* required; if you do not register a handler for
         // invitation events, you will get standard notifications instead.
         // Standard notifications may be preferable behavior in many cases.
-        Games.Invitations.registerInvitationListener( BurgerVariables.mGoogleApiClient, this);
+        Games.Invitations.registerInvitationListener(BurgerVariables.mGoogleApiClient, this);
 
         // Likewise, we are registering the optional MatchUpdateListener, which
         // will replace notifications you would get otherwise. You do *NOT* have
         // to register a MatchUpdateListener.
-        Games.TurnBasedMultiplayer.registerMatchUpdateListener( BurgerVariables.mGoogleApiClient, this);
+        Games.TurnBasedMultiplayer.registerMatchUpdateListener(BurgerVariables.mGoogleApiClient, this);
     }
 
     @Override
     public void onConnectionSuspended(int i) {
         Log.d(TAG, "onConnectionSuspended():  Trying to reconnect.");
-         BurgerVariables.mGoogleApiClient.connect();
+        BurgerVariables.mGoogleApiClient.connect();
         setViewVisibility();
     }
 
@@ -187,7 +178,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
             mSignInClicked = false;
 
             mResolvingConnectionFailure = BaseGameUtils.resolveConnectionFailure(this,
-                     BurgerVariables.mGoogleApiClient, connectionResult, RC_SIGN_IN,
+                    BurgerVariables.mGoogleApiClient, connectionResult, RC_SIGN_IN,
                     "error de merde");
         }
 
@@ -227,7 +218,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
                 processResult(result);
             }
         };
-        Games.TurnBasedMultiplayer.createMatch( BurgerVariables.mGoogleApiClient, tbmc).setResultCallback(cb);
+        Games.TurnBasedMultiplayer.createMatch(BurgerVariables.mGoogleApiClient, tbmc).setResultCallback(cb);
     }
 
     // In-game controls
@@ -236,7 +227,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
     // giving up on the view.
     public void onCancelClicked(View view) {
         showSpinner();
-        Games.TurnBasedMultiplayer.cancelMatch( BurgerVariables.mGoogleApiClient, mMatch.getMatchId())
+        Games.TurnBasedMultiplayer.cancelMatch(BurgerVariables.mGoogleApiClient, mMatch.getMatchId())
                 .setResultCallback(new ResultCallback<TurnBasedMultiplayer.CancelMatchResult>() {
                     @Override
                     public void onResult(TurnBasedMultiplayer.CancelMatchResult result) {
@@ -253,7 +244,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
         showSpinner();
         String nextParticipantId = getNextParticipantId();
 
-        Games.TurnBasedMultiplayer.leaveMatchDuringTurn( BurgerVariables.mGoogleApiClient, mMatch.getMatchId(),
+        Games.TurnBasedMultiplayer.leaveMatchDuringTurn(BurgerVariables.mGoogleApiClient, mMatch.getMatchId(),
                 nextParticipantId).setResultCallback(
                 new ResultCallback<TurnBasedMultiplayer.LeaveMatchResult>() {
                     @Override
@@ -267,7 +258,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
     // Finish the game. Sometimes, this is your only choice.
     public void onFinishClicked(View view) {
         showSpinner();
-        Games.TurnBasedMultiplayer.finishMatch( BurgerVariables.mGoogleApiClient, mMatch.getMatchId())
+        Games.TurnBasedMultiplayer.finishMatch(BurgerVariables.mGoogleApiClient, mMatch.getMatchId())
                 .setResultCallback(new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>() {
                     @Override
                     public void onResult(TurnBasedMultiplayer.UpdateMatchResult result) {
@@ -281,7 +272,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
 
     // Update the visibility based on what state we're in.
     public void setViewVisibility() {
-        boolean isSignedIn = ( BurgerVariables.mGoogleApiClient != null) && ( BurgerVariables.mGoogleApiClient.isConnected());
+        boolean isSignedIn = (BurgerVariables.mGoogleApiClient != null) && (BurgerVariables.mGoogleApiClient.isConnected());
 
         if (!isSignedIn) {
             findViewById(R.id.login_layout).setVisibility(View.VISIBLE);
@@ -297,7 +288,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
 
 
         ((TextView) findViewById(R.id.name_field)).setText(Games.Players.getCurrentPlayer(
-                 BurgerVariables.mGoogleApiClient).getDisplayName());
+                BurgerVariables.mGoogleApiClient).getDisplayName());
         findViewById(R.id.login_layout).setVisibility(View.GONE);
 
         if (isDoingTurn) {
@@ -326,7 +317,6 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
     public void dismissSpinner() {
         findViewById(R.id.progressLayout).setVisibility(View.GONE);
     }
-
 
 
     // Rematch dialog
@@ -363,7 +353,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
             mSignInClicked = false;
             mResolvingConnectionFailure = false;
             if (response == Activity.RESULT_OK) {
-                 BurgerVariables.mGoogleApiClient.connect();
+                BurgerVariables.mGoogleApiClient.connect();
             } else {
                 BaseGameUtils.showActivityResultError(this, request, response, R.string.sign_in_failed);
             }
@@ -415,7 +405,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
                     .setAutoMatchCriteria(autoMatchCriteria).build();
 
             // Start the match
-            Games.TurnBasedMultiplayer.createMatch( BurgerVariables.mGoogleApiClient, tbmc).setResultCallback(
+            Games.TurnBasedMultiplayer.createMatch(BurgerVariables.mGoogleApiClient, tbmc).setResultCallback(
                     new ResultCallback<TurnBasedMultiplayer.InitiateMatchResult>() {
                         @Override
                         public void onResult(TurnBasedMultiplayer.InitiateMatchResult result) {
@@ -439,12 +429,12 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
 
         mMatch = match;
 
-        String playerId = Games.Players.getCurrentPlayerId( BurgerVariables.mGoogleApiClient);
+        String playerId = Games.Players.getCurrentPlayerId(BurgerVariables.mGoogleApiClient);
         String myParticipantId = mMatch.getParticipantId(playerId);
 
         showSpinner();
 
-        Games.TurnBasedMultiplayer.takeTurn( BurgerVariables.mGoogleApiClient, match.getMatchId(),
+        Games.TurnBasedMultiplayer.takeTurn(BurgerVariables.mGoogleApiClient, match.getMatchId(),
                 mTurnData.persist(), myParticipantId).setResultCallback(
                 new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>() {
                     @Override
@@ -457,7 +447,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
     // If you choose to rematch, then call it and wait for a response.
     public void rematch() {
         showSpinner();
-        Games.TurnBasedMultiplayer.rematch( BurgerVariables.mGoogleApiClient, mMatch.getMatchId()).setResultCallback(
+        Games.TurnBasedMultiplayer.rematch(BurgerVariables.mGoogleApiClient, mMatch.getMatchId()).setResultCallback(
                 new ResultCallback<TurnBasedMultiplayer.InitiateMatchResult>() {
                     @Override
                     public void onResult(TurnBasedMultiplayer.InitiateMatchResult result) {
@@ -640,7 +630,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
 
         showSpinner();
 
-        Games.TurnBasedMultiplayer.takeTurn( BurgerVariables.mGoogleApiClient, mMatch.getMatchId(),
+        Games.TurnBasedMultiplayer.takeTurn(BurgerVariables.mGoogleApiClient, mMatch.getMatchId(),
                 mTurnData.persist(), nextParticipantId).setResultCallback(
                 new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>() {
                     @Override
@@ -651,9 +641,6 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
 
         mTurnData = null;
     }
-
-
-
 
 
     @Override
@@ -670,13 +657,13 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
                 mSignInClicked = true;
                 mTurnBasedMatch = null;
                 findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-                 BurgerVariables.mGoogleApiClient.connect();
+                BurgerVariables.mGoogleApiClient.connect();
                 break;
             case R.id.sign_out_button:
                 mSignInClicked = false;
-                Games.signOut( BurgerVariables.mGoogleApiClient);
-                if ( BurgerVariables.mGoogleApiClient.isConnected()) {
-                     BurgerVariables.mGoogleApiClient.disconnect();
+                Games.signOut(BurgerVariables.mGoogleApiClient);
+                if (BurgerVariables.mGoogleApiClient.isConnected()) {
+                    BurgerVariables.mGoogleApiClient.disconnect();
                 }
                 setViewVisibility();
                 break;
@@ -692,37 +679,61 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
             @Override
             public void run() {
 
-        Log.d(null, "Burger Quiz - Changment d'Epreuve - UI " );
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Log.d(null, "Burger Quiz - Changment d'Epreuve - UI ");
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
 
-        Fragment epreuve;
+                Fragment epreuve;
 
-        switch(BurgerVariables.burgerQuiz.getCurrentEpreuve())
-        {
-            case SCORE:
-                epreuve = ScoreFragment.newInstance();
-                break;
-            case MAINMENU:
-                epreuve = MainMenuFragment.newInstance();
-                break;
-            case NUGGETS:
-                epreuve = NuggetsFragment.newInstance();
-                break;
-            case SELOUPOIVRE:
-                epreuve = SelOuPoivreFragment.newInstance();
-                break;
-            default:
-                epreuve = NuggetsFragment.newInstance();
-                break;
-        }
-        //TODO: DELETE THAT
-        epreuve.setEnterTransition(new Fade(Fade.IN));
-        epreuve.setExitTransition(new Fade(Fade.OUT));
-        ft.replace(R.id.fragment2, epreuve);
+                switch (BurgerVariables.burgerQuiz.getCurrentEpreuve()) {
+                    case SCORE:
+                        epreuve = ScoreFragment.newInstance();
+                        break;
+                    case MAINMENU:
+                        epreuve = MainMenuFragment.newInstance();
+                        break;
+                    case NUGGETS:
+                        epreuve = NuggetsFragment.newInstance();
+                        break;
+                    case SELOUPOIVRE:
+                        epreuve = SelOuPoivreFragment.newInstance();
+                        break;
+                    default:
+                        epreuve = NuggetsFragment.newInstance();
+                        break;
+                }
+                //TODO: DELETE THAT
+                epreuve.setEnterTransition(new Fade(Fade.IN));
+                epreuve.setExitTransition(new Fade(Fade.OUT));
+                ft.replace(R.id.fragment2, epreuve);
 
-        ft.commit();
+                ft.commit();
 
             }
         });
+    }
+
+    @Override
+    public void nextTurn()
+    {
+        //showSpinner();
+
+        String nextParticipantId = getNextParticipantId();
+        // Create the next turn
+        mTurnData.turnCounter += 1;
+        //mTurnData.data = mDataView.getText().toString();
+
+        //showSpinner();
+
+        Games.TurnBasedMultiplayer.takeTurn( BurgerVariables.mGoogleApiClient, mMatch.getMatchId(),
+                mTurnData.persist(), nextParticipantId).setResultCallback(
+                new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>() {
+                    @Override
+                    public void onResult(TurnBasedMultiplayer.UpdateMatchResult result) {
+                        processResult(result);
+                    }
+                });
+
+        mTurnData = null;
+
     }
 }

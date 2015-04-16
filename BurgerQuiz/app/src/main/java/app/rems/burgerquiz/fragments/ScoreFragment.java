@@ -28,6 +28,7 @@ public class ScoreFragment extends Fragment {
     private ImageView ivScore;
     private TextView tvSuivant;
     private TextView tvMiams;
+    private AnimationDrawable animation;
 
     public static ScoreFragment newInstance() {
         ScoreFragment fragment = new ScoreFragment();
@@ -41,6 +42,7 @@ public class ScoreFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -61,7 +63,7 @@ public class ScoreFragment extends Fragment {
             tvMiams.setTextColor(getResources().getColor(R.color.ketchup));
 
 
-        final AnimationDrawable animation = new AnimationDrawable();
+        animation = new AnimationDrawable();
         animation.setOneShot(true);
 
         Resources res = this.getResources();
@@ -71,18 +73,22 @@ public class ScoreFragment extends Fragment {
             String name = "miams" + String.valueOf(i);
             int id = getResources().getIdentifier(name, "drawable", getActivity().getPackageName());
             Drawable d = ResourcesCompat.getDrawable(getResources(), id, null);
-            animation.addFrame(d, 600);
+            animation.addFrame(d, 150);
         }
 
         ivScore.setBackground(animation);
-         animation.start();
-
-        tvSuivant.setOnClickListener(new View.OnClickListener() {
+        animation.start();
+        Thread thread = new Thread() {
             @Override
-            public void onClick(View view) {
-                BurgerVariables.burgerQuiz.nextEpreuve();
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                    mListener.nextTurn();
+                } catch (InterruptedException e) {
+                }
             }
-        });
+        };
+        thread.start();
         return v;
     }
 
