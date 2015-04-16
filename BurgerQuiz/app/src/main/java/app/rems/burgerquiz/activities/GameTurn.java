@@ -7,6 +7,8 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import app.rems.burgerquiz.game.BurgerVariables;
+
 /**
  * Created by remsd_000 on 14/04/2015.
  */
@@ -15,9 +17,7 @@ public class GameTurn {
 
     public static final String TAG = "EBTurn";
 
-    public int mayoPoints = 0;
-    public int ketchupPoints = 0;
-    public int turnCounter;
+    public int turnCounter = 1;
 
     public GameTurn() {
     }
@@ -27,8 +27,10 @@ public class GameTurn {
         JSONObject retVal = new JSONObject();
 
         try {
-            retVal.put("mayoPoints", mayoPoints);
-            retVal.put("ketchupPoints", ketchupPoints);
+            retVal.put("mayoPoints", BurgerVariables.burgerQuiz.getCurrentScoreMayo());
+            retVal.put("ketchupPoints", BurgerVariables.burgerQuiz.getCurrentScoreKetchup());
+            retVal.put("equipe1", BurgerVariables.burgerQuiz.getEquipe1().getValue());
+            retVal.put("equipe2", BurgerVariables.burgerQuiz.getEquipe2().getValue());
             retVal.put("turnCounter", turnCounter);
 
         } catch (JSONException e) {
@@ -67,14 +69,18 @@ public class GameTurn {
             JSONObject obj = new JSONObject(st);
 
             if (obj.has("mayoPoints")) {
-                retVal.mayoPoints = obj.getInt("mayoPoints");
+                BurgerVariables.burgerQuiz.setCurrentScoreMayo(obj.getInt("mayoPoints"));
             }
             if (obj.has("turnCounter")) {
                 retVal.turnCounter = obj.getInt("turnCounter");
             }
             if (obj.has("ketchupPoints")) {
-                retVal.ketchupPoints = obj.getInt("ketchupPoints");
+                BurgerVariables.burgerQuiz.setCurrentScoreKetchup(obj.getInt("ketchupPoints"));
             }
+            if (obj.has("equipe1"))
+                BurgerVariables.burgerQuiz.setEquipe1(BurgerVariables.Equipe.fromInt(obj.getInt("equipe1")));
+            if (obj.has("equipe2"))
+                BurgerVariables.burgerQuiz.setEquipe2(BurgerVariables.Equipe.fromInt(obj.getInt("equipe2")));
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block

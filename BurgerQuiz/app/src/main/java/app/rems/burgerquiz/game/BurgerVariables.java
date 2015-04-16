@@ -15,8 +15,26 @@ import app.rems.burgerquiz.activities.GameActivity;
 public class BurgerVariables {
 
     public enum Equipe {
-        MAYO,
-        KETCHUP
+        MAYO(1),
+        KETCHUP(2),
+        PASCHOISI(0);
+
+        private int _value;
+
+        Equipe(int Value) {
+            this._value = Value;
+        }
+
+        public int getValue() {
+            return _value;
+        }
+
+        public static Equipe fromInt(int i) {
+            for (Equipe b : Equipe .values()) {
+                if (b.getValue() == i) { return b; }
+            }
+            return null;
+        }
     }
 
     public enum Epreuve {

@@ -196,7 +196,7 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
     // and figure out what to do.
     public void onStartMatchClicked(View view) {
         Intent intent = Games.TurnBasedMultiplayer.getSelectOpponentsIntent(BurgerVariables.mGoogleApiClient,
-                1, 7, true);
+                1, 1, true);
         startActivityForResult(intent, RC_SELECT_PLAYERS);
     }
 
@@ -304,7 +304,18 @@ public class GameActivity extends GameEngineActivity implements BurgerFragmentLi
     public void setGameplayUI() {
         isDoingTurn = true;
         setViewVisibility();
+
         //mDataView.setText(mTurnData.data);
+        //BurgerVariables.burgerQuiz.setCurrentEpreuve(BurgerVariables.Epreuve.MAINMENU);
+        if (mTurnData.turnCounter == 2)
+        {
+            BurgerVariables.burgerQuiz.setCurrentEpreuve(BurgerVariables.Epreuve.MAINMENU);
+            BurgerVariables.burgerQuiz.startP2();
+        }
+        else if (mTurnData.turnCounter == 3){
+            BurgerVariables.burgerQuiz.setCurrentEpreuve(BurgerVariables.Epreuve.SCORE);
+            BurgerVariables.burgerQuiz.startP2();
+        }
         BurgerVariables.burgerQuiz.nextEpreuve();
     }
 
