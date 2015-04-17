@@ -25,10 +25,11 @@ import app.rems.burgerquiz.utils.BurgerFragmentListener;
 public class ScoreFragment extends Fragment {
 
     private BurgerFragmentListener mListener;
-    private ImageView ivScore;
     private TextView tvSuivant;
     private TextView tvMiams;
     private AnimationDrawable animation;
+    private TextView tvScoreKetchup;
+    private TextView tvScoreMayo;
 
     public static ScoreFragment newInstance() {
         ScoreFragment fragment = new ScoreFragment();
@@ -51,11 +52,17 @@ public class ScoreFragment extends Fragment {
         Log.d(null, "Burger Quiz - Score - OnCreate ");
 
         View v = inflater.inflate(R.layout.fragment_score, container, false);
-        ivScore = (ImageView) v.findViewById(R.id.ivScore);
         tvSuivant = (TextView) v.findViewById(R.id.tvSuivant);
         tvMiams = (TextView) v.findViewById(R.id.tvMiams);
+        tvScoreKetchup = (TextView) v.findViewById(R.id.tvScoreKetchup);
+        tvScoreMayo = (TextView) v.findViewById(R.id.tvScoreMayo);
 
         tvMiams.setTypeface(BurgerVariables.customFont);
+        tvScoreKetchup.setTypeface(BurgerVariables.customFont);
+        tvScoreMayo.setTypeface(BurgerVariables.customFont);
+
+        tvScoreKetchup.setText(String.valueOf(BurgerVariables.burgerQuiz.getCurrentScoreKetchup()));
+        tvScoreMayo.setText(String.valueOf(BurgerVariables.burgerQuiz.getCurrentScoreMayo()));
 
         if (BurgerVariables.burgerQuiz.getEquipe() == BurgerVariables.Equipe.MAYO)
             tvMiams.setTextColor(getResources().getColor(R.color.mayo));
@@ -63,32 +70,13 @@ public class ScoreFragment extends Fragment {
             tvMiams.setTextColor(getResources().getColor(R.color.ketchup));
 
 
-        animation = new AnimationDrawable();
-        animation.setOneShot(true);
-
-        Resources res = this.getResources();
-        Log.d(null, "Burger Quiz - Score - miams " + BurgerVariables.burgerQuiz.getCurrentScore());
-        for (int i =0; i <= BurgerVariables.burgerQuiz.getCurrentScore(); i++)
-        {
-            String name = "miams" + String.valueOf(i);
-            int id = getResources().getIdentifier(name, "drawable", getActivity().getPackageName());
-            Drawable d = ResourcesCompat.getDrawable(getResources(), id, null);
-            animation.addFrame(d, 150);
-        }
-
-        ivScore.setBackground(animation);
-        animation.start();
-        Thread thread = new Thread() {
+        tvSuivant.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                    mListener.nextTurn();
-                } catch (InterruptedException e) {
-                }
+            public void onClick(View v) {
+                BurgerVariables.bqActivity.nextTurn();
             }
-        };
-        thread.start();
+        });
+
         return v;
     }
 

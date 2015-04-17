@@ -123,20 +123,13 @@ public class SelOuPoivreFragment extends Fragment {
 
     private void checkReponse(int i)
     {
+        if (currentQuestion.checkReponse(i))
+            BurgerVariables.burgerQuiz.addOneToScore();
+
         if (numberQuestions != 5)
-        {
-            if (currentQuestion.checkReponse(i))
-                BurgerVariables.burgerQuiz.addOneToScore();
-
             nextQuestion();
-        }
         else
-        {
-            if (currentQuestion.checkReponse(i))
-               BurgerVariables.burgerQuiz.addOneToScore();
-
             BurgerVariables.burgerQuiz.nextEpreuve();
-        }
     }
 
     private void nextQuestion() {

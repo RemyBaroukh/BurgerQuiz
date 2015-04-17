@@ -64,6 +64,9 @@ public class BurgerQuiz {
             case SCORE:
                 currentEpreuve = BurgerVariables.Epreuve.SELOUPOIVRE;
                 break;
+            case SELOUPOIVRE:
+                currentEpreuve = BurgerVariables.Epreuve.SCORE;
+                break;
             default:
                 break;
         }

@@ -4,35 +4,77 @@
     android:layout_height="match_parent"
     android:background="#ff000000">
 
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="261dp"
-        android:id="@+id/ivScore"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Vos miams"
+        android:text="SCORES"
         android:id="@+id/tvMiams"
-        android:layout_above="@+id/ivScore"
         android:gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
         android:textColor="#ffffffff"
-        android:textSize="50dp"
-        android:typeface="monospace" />
+        android:textSize="40dp"
+        android:typeface="monospace"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Epreuve suivante"
+        android:text="Suivant"
         android:id="@+id/tvSuivant"
-        android:layout_below="@+id/ivScore"
-        android:layout_centerHorizontal="true"
         android:textColor="#ffffffff"
         android:typeface="monospace"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:layout_marginBottom="47dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/tvMiams"
+        android:layout_alignEnd="@+id/tvMiams" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView4"
+        android:src="@drawable/ketchuplogo"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView5"
+        android:layout_alignTop="@+id/imageView4"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/mayologo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/tvScoreKetchup"
+        android:textColor="#ffffff"
+        android:textSize="40dp"
+        android:layout_below="@+id/imageView5"
+        android:layout_toLeftOf="@+id/tvMiams"
+        android:layout_toStartOf="@+id/tvMiams"
+        android:layout_marginRight="54dp"
+        android:layout_marginEnd="54dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/tvScoreMayo"
+        android:textColor="#ffffff"
+        android:textSize="40dp"
+        android:layout_below="@+id/imageView5"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="54dp"
+        android:layout_marginEnd="54dp" />
 </RelativeLayout>
