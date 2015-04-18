@@ -1,5 +1,7 @@
 package app.rems.burgerquiz.seloupoivre;
 
+import android.util.Log;
+
 /**
  * Created by remsd_000 on 08/04/2015.
  */
@@ -41,6 +43,7 @@ public class SelOuPoivreQuestion {
     public  boolean checkReponse(int idReponse)
     {
 
+        Log.d(null, "Reponses " + reponses + " " + idReponse);
         switch(idReponse)
         {
             case 0:

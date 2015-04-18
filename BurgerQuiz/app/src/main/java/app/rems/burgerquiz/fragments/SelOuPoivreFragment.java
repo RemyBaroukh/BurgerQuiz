@@ -100,20 +100,20 @@ public class SelOuPoivreFragment extends Fragment {
         tvSel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkReponse(1);
+                checkReponse(0);
 
             }
         });
         tvPoivre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkReponse(2);
+                checkReponse(1);
             }
         });
         tvTitre3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkReponse(3);
+                checkReponse(2);
             }
         });
 

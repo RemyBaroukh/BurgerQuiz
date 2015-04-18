@@ -56,13 +56,13 @@ public class BurgerQuiz {
                 currentEpreuve = BurgerVariables.Epreuve.MAINMENU;
                 break;
             case MAINMENU:
-                currentEpreuve = BurgerVariables.Epreuve.NUGGETS;
+                currentEpreuve = BurgerVariables.Epreuve.SELOUPOIVRE;
                 break;
             case NUGGETS:
                 currentEpreuve = BurgerVariables.Epreuve.SCORE;
                 break;
             case SCORE:
-                currentEpreuve = BurgerVariables.Epreuve.SELOUPOIVRE;
+                currentEpreuve = BurgerVariables.Epreuve.NUGGETS;
                 break;
             case SELOUPOIVRE:
                 currentEpreuve = BurgerVariables.Epreuve.SCORE;
@@ -118,6 +118,7 @@ public class BurgerQuiz {
             this.currentScoreKetchup++;
         else
             this.currentScoreMayo++;
+        Log.d(null, "Burger Quiz - Score actuel " + this.currentScoreKetchup + " " + this.currentScoreMayo);
     }
 
     public int getCurrentScoreMayo() {
